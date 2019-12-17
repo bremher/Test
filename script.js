@@ -46,7 +46,8 @@ button_5.addEventListener('click',  async() =>
         //ReadyToRating
          await device.transferOut(1, ack_packet3); // #endpoint 1
          await device.transferIn(1, 64);
-         document.getElementById('result').innerHTML = "CMD:"+'AGUARDANDO_NOTA';
+         document.getElementById('result').innerHTML = "CMD: "+'AGUARDANDO_NOTA';
+         document.getElementById('target').innerHTML = "Retorno:";
       } 
 
       catch (error) 
@@ -100,7 +101,7 @@ button_1.addEventListener('click', async() =>
        // CancelRating 
        await device.transferOut(1, ack_packet1);
        await device.transferIn(1, 64); 
-       document.getElementById('result').innerHTML ="CMD:"+'NOTA_CANCELADA';
+       document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
     } 
 
     catch (error) 
@@ -135,20 +136,20 @@ button_1.addEventListener('click', async() =>
       //document.getElementById('target').innerHTML = 'Received: ' + str;
 
       if (cmd == 0x04)  // AVANTTEC_NOTA_EM_ESPERA 0x04
-      { document.getElementById('result').innerHTML ="CMD:"+'NOTA_EM_ESPERA';
-        document.getElementById('nota').innerHTML = "NOTA: " + nota;
+      { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
+        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
       }
       if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
-      { document.getElementById('result').innerHTML ="CMD:"+'NOTA_EFETUADA';
-        document.getElementById('nota').innerHTML = "NOTA: " + nota;
+      { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
+        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
       }
       if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
-      { document.getElementById('result').innerHTML ="CMD:"+'CANCELAMENTO_NAO_PERMITIDO';
-        document.getElementById('nota').innerHTML = "NOTA: " + nota;
+      { document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
+        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
       }
       if (cmd == 0x07)  // AVANTTEC_NOTA_CANCELADA 0x07
-      {   document.getElementById('result').innerHTML ="CMD:"+'NOTA_CANCELADA';
-          document.getElementById('nota').innerHTML = "NOTA: " + nota;
+      {   document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
+          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
       }
     } 
 
@@ -171,8 +172,8 @@ button_1.addEventListener('click', async() =>
       //ReadyToRating
       await device.transferOut(1, ack_packet3); // 1
       await device.transferIn(1, 64);
-      document.getElementById('result').innerHTML ="CMD:"+'AGUARDANDO_NOTA';
-      document.getElementById('nota').innerHTML = "NOTA: ...";      
+      document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
+      document.getElementById('nota').innerHTML = "NOTA: ...";            
     } 
 
     catch (error) 
@@ -194,7 +195,8 @@ button_1.addEventListener('click', async() =>
       await device.close();      
       document.getElementById('serialNumber').innerHTML = "Numero de Serie";
       document.getElementById('result').innerHTML ="CMD:";
-      document.getElementById('nota').innerHTML = "NOTA:";      
+      document.getElementById('nota').innerHTML = "NOTA:";    
+      document.getElementById('target').innerHTML = "Retorno:";  
     } 
     catch (error) 
     {
