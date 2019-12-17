@@ -91,6 +91,7 @@ button_5.addEventListener('click',  async() =>
           alert("Fabricante:  " + device.manufacturerName +
                 "\nProduto:  " + device.productName +
                 "\nNumero de Serie: " + device.serialNumber);
+          document.getElementById('serialNumber').innerHTML = device.serialNumber;
         }  
         await device.open();
         device.selectConfiguration(1); // Select configuration #1 
