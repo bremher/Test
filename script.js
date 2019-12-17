@@ -100,7 +100,7 @@ button_1.addEventListener('click', async() =>
     {
        // CancelRating 
        await device.transferOut(1, ack_packet1);
-       await device.transferIn(1, 64); 
+       //await device.transferIn(1, 64); 
        document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
     } 
 
@@ -179,7 +179,7 @@ button_1.addEventListener('click', async() =>
     {
       //ReadyToRating
       await device.transferOut(1, ack_packet3); // 1
-      await device.transferIn(1, 64);
+      //await device.transferIn(1, 64);
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";            
     } 
