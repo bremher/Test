@@ -44,8 +44,9 @@ button_5.addEventListener('click',  async() =>
       try 
       {
         //ReadyToRating
-         await device.transferOut(1, ack_packet3); // #endpoint 1
-         await device.transferIn(1, 64);
+         await device.transferOut(1, ack_packet3); // preparaNota
+         await device.transferIn(1, 64); // #endpoint 1
+
          document.getElementById('result').innerHTML = "CMD: "+'AGUARDANDO_NOTA';
          document.getElementById('target').innerHTML = "Retorno:";
       } 
@@ -99,8 +100,9 @@ button_1.addEventListener('click', async() =>
     try 
     {
        // CancelRating 
-       await device.transferOut(1, ack_packet1);
-       //await device.transferIn(1, 64); 
+       await device.transferOut(1, ack_packet1); // CancelaNota
+       await device.transferIn(1, 64); // #endpoint 1 
+
        document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
     } 
 
@@ -120,19 +122,18 @@ button_1.addEventListener('click', async() =>
     try 
     {
       //ReadRating from endpoint #1
-      await device.transferOut(1, ack_packet2);
-
+      await device.transferOut(1, ack_packet2); // LeNota
 
 //      await device.controlTransferOut({
 //              requestType: 'vendor',  // standard - class - vendor
 //              recipient: 'endpoint',  // device - interface - endpoint - other
-//              request: 0x03,        // enable channels
-//              value: 0x03,          // 0000 0011 (channels 1, and 2)
+//              request: 0x03,          // enable channels
+//              value: 0x03,            // 0000 0011 (channels 1, and 2)
 //              index: 0x01   });       // The recipient number
 
       //Get push scancode from button
       // Waiting for 1 byte from endpoint #1
-      let result = await device.transferIn(1, 64); 
+      let result = await device.transferIn(1, 64); // #endpoint 1
       let decoder = new TextDecoder('utf-8');
       let str = decoder.decode(result.data);  
 
@@ -172,14 +173,15 @@ button_1.addEventListener('click', async() =>
 ///////////////////////////////////////////////////
 // ReadyToRating - PreparaNota
 ///////////////////////////////////////////////////
-
  button_3.addEventListener('click', async() => 
   {    
     try 
     {
       //ReadyToRating
-      await device.transferOut(1, ack_packet3); // 1
-      //await device.transferIn(1, 64);
+      await device.transferOut(1, ack_packet3); // preparaNota
+      let result = await device.transferIn(1, 64); // #endpoint 1
+      while (result.data.byteLength <> 64);
+
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";            
     } 
@@ -198,8 +200,12 @@ button_1.addEventListener('click', async() =>
   {    
     try 
     {
-      await device.transferOut(1, ack_packet1);
-      await device.transferIn(1, 64); 
+      // bulk or interrupt data        
+      await device.transferOut(1, ack_packet1); // CancelaNota
+
+      let result = await device.transferIn(1, 64); // #endpoint 1
+      while (result.data.byteLength <> 64);
+
       await device.close();      
       document.getElementById('serialNumber').innerHTML = "Numero de Serie";
       document.getElementById('result').innerHTML ="CMD:";
