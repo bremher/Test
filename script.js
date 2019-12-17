@@ -180,7 +180,7 @@ button_1.addEventListener('click', async() =>
       //ReadyToRating
       await device.transferOut(1, ack_packet3); // preparaNota
       let result = await device.transferIn(1, 64); // #endpoint 1
-      while (result.data.byteLength <> 64);
+      while (result.data.byteLength != 64);
 
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";            
@@ -204,7 +204,7 @@ button_1.addEventListener('click', async() =>
       await device.transferOut(1, ack_packet1); // CancelaNota
 
       let result = await device.transferIn(1, 64); // #endpoint 1
-      while (result.data.byteLength <> 64);
+      while (result.data.byteLength != 64);
 
       await device.close();      
       document.getElementById('serialNumber').innerHTML = "Numero de Serie";
