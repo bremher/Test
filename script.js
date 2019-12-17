@@ -48,13 +48,13 @@ button_5.addEventListener('click',  async() =>
         //ReadyToRating
          await device.transferOut(1, ack_packet3); // #endpoint 1
          await device.transferIn(1, 64);
-         document.getElementById('result').innerHTML += 'AGUARDANDO_NOTA';
+         document.getElementById('result').innerHTML = "CMD:"+'AGUARDANDO_NOTA';
       } 
 
       catch (error) 
       {
         console.log(error);  
-        document.getElementById('target').innerHTML += error;    
+        document.getElementById('target').innerHTML = "Retorno: " + error;
       }    
 
       
@@ -91,7 +91,8 @@ button_5.addEventListener('click',  async() =>
           alert("Fabricante:  " + device.manufacturerName +
                 "\nProduto:  " + device.productName +
                 "\nNumero de Serie: " + device.serialNumber);
-          document.getElementById('serialNumber').innerHTML += device.serialNumber;
+          document.getElementById('serialNumber').innerHTML =
+                    "Numero de Serie " + device.serialNumber;
         }  
         await device.open();
         device.selectConfiguration(1); // Select configuration #1 
@@ -101,7 +102,7 @@ button_5.addEventListener('click',  async() =>
     catch (error) 
     {
       console.log(error);
-      document.getElementById('target').innerHTML += error;
+      document.getElementById('target').innerHTML = "Retorno: " + error;
       await device.close();  
     }   
   }) // button
@@ -117,13 +118,13 @@ button_1.addEventListener('click', async() =>
        // CancelRating 
        await device.transferOut(1, ack_packet1);
        await device.transferIn(1, 64); 
-       document.getElementById('result').innerHTML += 'NOTA_CANCELADA';
+       document.getElementById('result').innerHTML ="CMD:"+'NOTA_CANCELADA';
     } 
 
     catch (error) 
     {
       console.log(error);
-      document.getElementById('target').innerHTML += error;
+      document.getElementById('target').innerHTML = "Retorno: " + error;
       await device.close();  
     }    
   }) // button_1
@@ -152,27 +153,27 @@ button_1.addEventListener('click', async() =>
       //document.getElementById('target').innerHTML = 'Received: ' + str;
 
       if (cmd == 0x04)  // AVANTTEC_NOTA_EM_ESPERA 0x04
-      { document.getElementById('result').innerHTML += 'NOTA_EM_ESPERA';
-        document.getElementById('nota').innerHTML += nota;
+      { document.getElementById('result').innerHTML ="CMD:"+'NOTA_EM_ESPERA';
+        document.getElementById('nota').innerHTML = "NOTA: " + nota;
       }
       if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
-      { document.getElementById('result').innerHTML += 'NOTA_EFETUADA';
-        document.getElementById('nota').innerHTML += nota;
+      { document.getElementById('result').innerHTML ="CMD:"+'NOTA_EFETUADA';
+        document.getElementById('nota').innerHTML = "NOTA: " + nota;
       }
       if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
-      { document.getElementById('result').innerHTML += 'CANCELAMENTO_NAO_PERMITIDO';
-        document.getElementById('nota').innerHTML += nota;
+      { document.getElementById('result').innerHTML ="CMD:"+'CANCELAMENTO_NAO_PERMITIDO';
+        document.getElementById('nota').innerHTML = "NOTA: " + nota;
       }
       if (cmd == 0x07)  // AVANTTEC_NOTA_CANCELADA 0x07
-      {   document.getElementById('result').innerHTML += 'NOTA_CANCELADA';
-          document.getElementById('nota').innerHTML += nota;
+      {   document.getElementById('result').innerHTML ="CMD:"+'NOTA_CANCELADA';
+          document.getElementById('nota').innerHTML = "NOTA: " + nota;
       }
     } 
 
     catch (error) 
     {
       console.log(error);
-      document.getElementById('target').innerHTML += error;
+      document.getElementById('target').innerHTML = "Retorno: " + error;
       await device.close();  
     }    
   }) // button_2
@@ -188,13 +189,13 @@ button_1.addEventListener('click', async() =>
       //ReadyToRating
       await device.transferOut(1, ack_packet3); // 1
       await device.transferIn(1, 64);
-      document.getElementById('result').innerHTML += 'AGUARDANDO_NOTA';
+      document.getElementById('result').innerHTML ="CMD:"+'AGUARDANDO_NOTA';
     } 
 
     catch (error) 
     {
       console.log(error);  
-      document.getElementById('target').innerHTML += error;    
+      document.getElementById('target').innerHTML = "Retorno: " + error;
     }    
   }) // button_3
 
@@ -212,7 +213,7 @@ button_1.addEventListener('click', async() =>
     catch (error) 
     {
       console.log(error);   
-      document.getElementById('target').innerHTML += error;   
+      document.getElementById('target').innerHTML = "Retorno: " + error;
     }    
   }) // button_4
 
