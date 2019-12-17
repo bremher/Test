@@ -37,8 +37,8 @@ button_5.addEventListener('click',  async() =>
       if (device.opened == false)
       {    
         await device.open();
-        device.selectConfiguration(1); // Select configuration #1 
-        device.claimInterface(0);  // Request control over interface #0.
+        await device.selectConfiguration(1); // Select configuration #1 
+        await device.claimInterface(0);  // Request control over interface #0.
       } 
 
       try 
@@ -120,7 +120,15 @@ button_1.addEventListener('click', async() =>
     try 
     {
       //ReadRating from endpoint #1
-      await device.transferOut(1, ack_packet2);
+      //await device.transferOut(1, ack_packet2);
+
+
+      await device.controlTransferOut({
+              requestType: 'vendor',  // standard - class - vendor
+              recipient: 'interface', // device - interface - endpoint - other
+              request: 0xff,     // enable channels
+              value: 0xff,            // 0001 0011 (channels 1, 2 and 5)
+              index: 0x00   });       // The interface number
 
       //Get push scancode from button
       // Waiting for 1 byte from endpoint #1
