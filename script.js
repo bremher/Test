@@ -1,4 +1,3 @@
-
 'use strict';
 
   const VENDOR_ID = 0x04D8
@@ -88,8 +87,10 @@ button_5.addEventListener('click',  async() =>
     try 
     {
         if (device.serialNumber == SERIAL_NUMBER) 
-        {     
-          alert("Numero de Serie: [" + device.serialNumber + "]");
+        {                                
+          alert("Fabricante:  " + device.manufacturerName +
+                "\nProduto:  " + device.productName +
+                "\nNumero de Serie: " + device.serialNumber);
         }  
         await device.open();
         device.selectConfiguration(1); // Select configuration #1 
@@ -101,7 +102,7 @@ button_5.addEventListener('click',  async() =>
       console.log(error);
       document.getElementById('target').innerHTML = error;
       await device.close();  
-    }	  
+    }   
   }) // button
 
 ///////////////////////////////////////////////////
@@ -215,5 +216,3 @@ button_1.addEventListener('click', async() =>
   }) // button_4
 
 }) // document
-
-
