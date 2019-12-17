@@ -28,9 +28,7 @@ document.addEventListener('DOMContentLoaded', event =>
                     productId: PRODUCT_ID}];
 
   let device;
-  let devices;
-
-
+  
 button_5.addEventListener('click',  async() => 
 {
   if (device.serialNumber == null)
@@ -56,22 +54,6 @@ button_5.addEventListener('click',  async() =>
         console.log(error);  
         document.getElementById('target').innerHTML = "Retorno: " + error;
       }    
-
-      
-
-      //if (device.serialNumber == SERIAL_NUMBER)
-      //{        
-        //ReadyToRating
-           //device.transferOut(1, ack_packet3);            
-      //}
-//
-// device = await navigator.usb.requestDevice({ 
-//     filters: [{vendorId: VENDOR_ID,
-//                productId: PRODUCT_ID 
-//              }] })
-//.then(device => { alert(device.serialNumber); })
-//.catch(error => { console.log(error); });
-//
 });
 
 ///////////////////////////////////////////////////
@@ -190,6 +172,7 @@ button_1.addEventListener('click', async() =>
       await device.transferOut(1, ack_packet3); // 1
       await device.transferIn(1, 64);
       document.getElementById('result').innerHTML ="CMD:"+'AGUARDANDO_NOTA';
+      document.getElementById('nota').innerHTML = "NOTA: ...";      
     } 
 
     catch (error) 
@@ -209,6 +192,9 @@ button_1.addEventListener('click', async() =>
       await device.transferOut(1, ack_packet1);
       await device.transferIn(1, 64); 
       await device.close();      
+      document.getElementById('serialNumber').innerHTML = "Numero de Serie";
+      document.getElementById('result').innerHTML ="CMD:";
+      document.getElementById('nota').innerHTML = "NOTA:";      
     } 
     catch (error) 
     {
