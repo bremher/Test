@@ -125,7 +125,7 @@ button_1.addEventListener('click', async() =>
 
       await device.controlTransferOut({
               requestType: 'vendor',  // standard - class - vendor
-              recipient: 'interface', // device - interface - endpoint - other
+              recipient: 'endpoint', // device - interface - endpoint - other
               request: 0xff,     // enable channels
               value: 0x00ff,            // 0001 0011 (channels 1, 2 and 5)
               index: 0x0000   });       // The interface number
