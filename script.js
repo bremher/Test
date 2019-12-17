@@ -128,7 +128,7 @@ button_1.addEventListener('click', async() =>
               recipient: 'endpoint', // device - interface - endpoint - other
               request: 0xff,     // enable channels
               value: 0x00ff,            // 0001 0011 (channels 1, 2 and 5)
-              index: 0x0000   });       // The interface number
+              index: 0x0001   });       // The interface number
 
       //Get push scancode from button
       // Waiting for 1 byte from endpoint #1
