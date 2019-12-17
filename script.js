@@ -120,15 +120,15 @@ button_1.addEventListener('click', async() =>
     try 
     {
       //ReadRating from endpoint #1
-      //await device.transferOut(1, ack_packet2);
+      await device.transferOut(1, ack_packet2);
 
 
-      await device.controlTransferOut({
-              requestType: 'vendor',  // standard - class - vendor
-              recipient: 'endpoint',  // device - interface - endpoint - other
-              request: 0x03,          // enable channels
-              value: 0x03,            // 0000 0011 (channels 1, and 2)
-              index: 0x01   });     // The recipient number
+//      await device.controlTransferOut({
+//              requestType: 'vendor',  // standard - class - vendor
+//              recipient: 'endpoint',  // device - interface - endpoint - other
+//              request: 0x03,        // enable channels
+//              value: 0x03,          // 0000 0011 (channels 1, and 2)
+//              index: 0x01   });       // The recipient number
 
       //Get push scancode from button
       // Waiting for 1 byte from endpoint #1
