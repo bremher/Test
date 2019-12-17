@@ -127,8 +127,8 @@ button_1.addEventListener('click', async() =>
               requestType: 'vendor',  // standard - class - vendor
               recipient: 'interface', // device - interface - endpoint - other
               request: 0xff,     // enable channels
-              value: 0xff,            // 0001 0011 (channels 1, 2 and 5)
-              index: 0x00   });       // The interface number
+              value: 0x00ff,            // 0001 0011 (channels 1, 2 and 5)
+              index: 0x0000   });       // The interface number
 
       //Get push scancode from button
       // Waiting for 1 byte from endpoint #1
