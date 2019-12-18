@@ -238,7 +238,7 @@ button_1.addEventListener('click', async() =>
      }    
  });
 
- navigator.usb. ('disconnect', evt => 
+ navigator.usb.addEventListener('disconnect', evt => 
  {
     document.getElementById('status').innerHTML = "DESCONECTADO";
  });
