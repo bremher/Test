@@ -216,7 +216,7 @@ button_1.addEventListener('click', async() =>
 ///////////////////////////////////////////////////
 // Connect Device
 ///////////////////////////////////////////////////
-function connectDevice()
+async function connectDevice()
 {
      try 
     {
@@ -249,7 +249,7 @@ function connectDevice()
 ///////////////////////////////////////////////////
 // Close Device
 ///////////////////////////////////////////////////
-function closeDevice()
+async function closeDevice()
 {
     try 
     {
