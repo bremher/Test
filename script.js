@@ -230,7 +230,7 @@ button_1.addEventListener('click', async() =>
           let decoder = new TextDecoder('utf-8');
           let str = decoder.decode(result.data);  
           let nota = str[2];
-          document.getElementById('target').innerHTML = "Recebeu: " + nota);;
+          document.getElementById('target').innerHTML = "Recebeu: " + nota;
         }
      }    
  });
