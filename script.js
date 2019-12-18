@@ -224,18 +224,21 @@ button_1.addEventListener('click', async() =>
 
     while (true) 
     {
-        let result = device.transferIn(1, 64);
-        if (result.data && result.data.byteLength === 64) 
-        {
-          let decoder = new TextDecoder('utf-8');
-          let str = decoder.decode(result.data);  
-          let nota = str[2];
-          document.getElementById('target').innerHTML = "Recebeu: " + nota;
-        }
+       if (device.opened == true)
+       {
+          let result = device.transferIn(1, 64);
+          if (result.data && result.data.byteLength == 64) 
+          {
+              let decoder = new TextDecoder('utf-8');
+              let str = decoder.decode(result.data);  
+              let nota = str[2];
+              document.getElementById('target').innerHTML = "Recebeu: " + nota;
+          }
+       }     
      }    
  });
 
- navigator.usb.addEventListener('disconnect', evt => 
+ navigator.usb. ('disconnect', evt => 
  {
     document.getElementById('status').innerHTML = "DESCONECTADO";
  });
