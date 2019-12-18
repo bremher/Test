@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', event =>
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
 
-  let device = await navigator.usb.requestDevice({ filters: filters})
+  let device = navigator.usb.requestDevice({ filters: filters})
   
 button_5.addEventListener('click',  async() => 
 {
