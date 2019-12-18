@@ -59,7 +59,7 @@ button_5.addEventListener('click',  async() =>
 ///////////////////////////////////////////////////
   button.addEventListener('click', async() => 
   {    
-      connectDevice();
+     connectDevice();
   }) // button
 
 ///////////////////////////////////////////////////
@@ -169,14 +169,32 @@ button_1.addEventListener('click', async() =>
       console.log(error);  
       document.getElementById('target').innerHTML = "Retorno: " + error;
     }    
-  }) // button_3
-
-
+  }) // button_3 - PreparaNota
 
 // ################################################
 //  ##           E V E N T S                    ##
 // ################################################
 
+navigator.usb.addEventListener('connect', event => { this.attached(event) })
+
+
+private attached (event: WebUSB.ConnectionEvent) 
+{
+    if (this.matchesTarget(event.device)) 
+    {
+      console.log(DEVICE_NAME + ': Connected')
+      this.connect(event.device)
+    }
+}
+
+private matchesTarget (device: WebUSB.Device) 
+{
+    return device.vendorId == VENDOR_ID &&
+      device.productId == PRODUCT_ID
+  }
+
+
+/*
  navigator.usb.addEventListener('connect', evt => 
  {
     document.getElementById('status').innerHTML = "DETECTADO";
@@ -203,11 +221,13 @@ button_1.addEventListener('click', async() =>
       }    
     }
  });
+ */
 
  navigator.usb.addEventListener('disconnect', evt => 
  {
     document.getElementById('status').innerHTML = "DESCONECTADO";
-    closeDevice();
+    if (device.opened == true)
+        closeDevice();
  });
 
 // ################################################
@@ -242,7 +262,8 @@ button_1.addEventListener('click', async() =>
     {
       console.log(error);
       document.getElementById('target').innerHTML = "Retorno: " + error;
-      await device.close();  
+      if (device.opened == true)
+         await device.close();  
       return false;     
     }
  }
