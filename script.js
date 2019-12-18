@@ -181,17 +181,6 @@ button_1.addEventListener('click', async() =>
       await device.transferOut(1, ack_packet3); // preparaNota
       let result = await device.transferIn(1, 64); // #endpoint 1
 
-
-
-      //ReadRating from endpoint #1
-      await device.transferOut(1, ack_packet2); // LeNota
-      // Waiting for 1 byte from endpoint #1
-      let result = await device.transferIn(1, 64); // #endpoint 1
-      let decoder = new TextDecoder('utf-8');
-      let str = decoder.decode(result.data);  
-
-
-
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";            
     } 
@@ -229,4 +218,24 @@ button_1.addEventListener('click', async() =>
     }    
   }) // button_4
 
-}) // document
+ navigator.usb.addEventListener('connect', evt => 
+ {
+    document.getElementById('status').innerHTML = "CONNECTADO";
+
+    while (true) 
+    {
+        const result = await device.transferIn(1, 64);
+        if (result.data && result.data.byteLength === 64) 
+        {
+          let decoder = new TextDecoder('utf-8');
+          let str = decoder.decode(result.data);  
+          let nota = str[2];
+          document.getElementById('target').innerHTML = "Recebeu: " + nota);;
+        }
+     }    
+ });
+
+ navigator.usb.addEventListener('disconnect', evt => 
+ {
+    document.getElementById('status').innerHTML = "DESCONECTADO";
+ }) // document
