@@ -181,7 +181,9 @@ button_1.addEventListener('click', async() =>
  {
     document.getElementById('status').innerHTML = "DETECTADO";
    
-    if (connectDevice() == true)
+    button.click();
+
+    if (device.opened == true)
     {
       while (true) 
       {
