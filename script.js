@@ -192,24 +192,25 @@ button_1.addEventListener('click', async() =>
  {
     document.getElementById('status').innerHTML = "DETECTADO";
    
-    connectDevice();
-
-    while (true) 
+    if (connectDevice() == true)
     {
-       if (device.opened == true)
-       {
-          document.getElementById('status').innerHTML = "CONNECTADO";
+      while (true) 
+      {
+         if (device.opened == true)
+         {
+            document.getElementById('status').innerHTML = "CONNECTADO";
 
-          let result = device.transferIn(1, 64);
-          if (result.data && result.data.byteLength == 64) 
-          {
+            let result = device.transferIn(1, 64);
+            if (result.data && result.data.byteLength == 64) 
+            {
               let decoder = new TextDecoder('utf-8');
               let str = decoder.decode(result.data);  
               let nota = str[2];
               document.getElementById('target').innerHTML = "Recebeu: " + nota;
-          }
-       }     
-     }    
+            }
+        }     
+      }    
+    }
  });
 
  navigator.usb.addEventListener('disconnect', evt => 
@@ -238,7 +239,8 @@ function connectDevice()
         }  
         await device.open();
         device.selectConfiguration(1); // Select configuration #1 
-        device.claimInterface(0);  // Request control over interface #0.      
+        device.claimInterface(0);  // Request control over interface #0. 
+        return true;     
     }
 
     catch (error) 
@@ -246,6 +248,7 @@ function connectDevice()
       console.log(error);
       document.getElementById('target').innerHTML = "Retorno: " + error;
       await device.close();  
+      return false;     
     }
 }
 
