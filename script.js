@@ -175,31 +175,12 @@ button_1.addEventListener('click', async() =>
 //  ##           E V E N T S                    ##
 // ################################################
 
-navigator.usb.addEventListener('connect', event => { this.attached(event) })
-
-
-private attached (event: WebUSB.ConnectionEvent) 
-{
-    if (this.matchesTarget(event.device)) 
-    {
-      console.log(DEVICE_NAME + ': Connected')
-      this.connect(event.device)
-    }
-}
-
-private matchesTarget (device: WebUSB.Device) 
-{
-    return device.vendorId == VENDOR_ID &&
-      device.productId == PRODUCT_ID
-  }
-
-
-/*
- navigator.usb.addEventListener('connect', evt => 
+ navigator.usb.addEventListener('connect', event => 
  {
     document.getElementById('status').innerHTML = "DETECTADO";
    
-    button.click();
+    setTimeOut(connectDevice,8000);
+
 
     if (device.opened == true)
     {
@@ -217,11 +198,11 @@ private matchesTarget (device: WebUSB.Device)
               let nota = str[2];
               document.getElementById('target').innerHTML = "Recebeu: " + nota;
             }
-        }     
-      }    
+         }
+      }
     }
  });
- */
+
 
  navigator.usb.addEventListener('disconnect', evt => 
  {
@@ -233,6 +214,7 @@ private matchesTarget (device: WebUSB.Device)
 // ################################################
 // ##     F U N C T I O N S                      ##
 // ################################################
+
 
 ///////////////////////////////////////////////////
 // Connect Device
@@ -297,3 +279,11 @@ private matchesTarget (device: WebUSB.Device)
  }
 
 }) // document
+
+
+
+/*
+
+
+
+*/
