@@ -212,12 +212,11 @@ button_1.addEventListener('click', async() =>
 // ##     F U N C T I O N S                      ##
 // ################################################
 
-
 ///////////////////////////////////////////////////
 // Connect Device
 ///////////////////////////////////////////////////
-async function connectDevice()
-{
+ async function connectDevice()
+ {
      try 
     {
         device = await navigator.usb.requestDevice({ filters: filters});
@@ -244,13 +243,13 @@ async function connectDevice()
       await device.close();  
       return false;     
     }
-}
+ }
 
 ///////////////////////////////////////////////////
 // Close Device
 ///////////////////////////////////////////////////
-async function closeDevice()
-{
+ async function closeDevice()
+ {
     try 
     {
       // bulk or interrupt data        
@@ -272,5 +271,6 @@ async function closeDevice()
       document.getElementById('target').innerHTML = "Retorno: " + error;
       return false;
     }    
+ }
 
 }) // document
