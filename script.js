@@ -63,6 +63,15 @@ button_5.addEventListener('click',  async() =>
   }) // button
 
 ///////////////////////////////////////////////////
+// Close Device
+///////////////////////////////////////////////////
+  button_4.addEventListener('click', async() => 
+  {    
+     closeDevice();
+  }) // button_4
+
+
+///////////////////////////////////////////////////
 // CancelRating - CancelaNota
 ///////////////////////////////////////////////////
 button_1.addEventListener('click', async() => 
@@ -162,31 +171,11 @@ button_1.addEventListener('click', async() =>
     }    
   }) // button_3
 
-///////////////////////////////////////////////////
-// Close Device
-///////////////////////////////////////////////////
- button_4.addEventListener('click', async() => 
-  {    
-    try 
-    {
-      // bulk or interrupt data        
-      await device.transferOut(1, ack_packet1); // CancelaNota
 
-      let result = await device.transferIn(1, 64); // #endpoint 1
-      while (result.data.byteLength != 64);
 
-      await device.close();      
-      document.getElementById('serialNumber').innerHTML = "Numero de Serie";
-      document.getElementById('result').innerHTML ="CMD:";
-      document.getElementById('nota').innerHTML = "NOTA:";    
-      document.getElementById('target').innerHTML = "Retorno:";  
-    } 
-    catch (error) 
-    {
-      console.log(error);   
-      document.getElementById('target').innerHTML = "Retorno: " + error;
-    }    
-  }) // button_4
+// ################################################
+//  ##           E V E N T S                    ##
+// ################################################
 
  navigator.usb.addEventListener('connect', evt => 
  {
@@ -216,8 +205,12 @@ button_1.addEventListener('click', async() =>
  navigator.usb.addEventListener('disconnect', evt => 
  {
     document.getElementById('status').innerHTML = "DESCONECTADO";
-    await device.close();  
+    closeDevice();
  });
+
+// ################################################
+// ##     F U N C T I O N S                      ##
+// ################################################
 
 
 ///////////////////////////////////////////////////
@@ -237,6 +230,7 @@ function connectDevice()
           document.getElementById('serialNumber').innerHTML =
                     "Numero de Serie " + device.serialNumber;
         }  
+
         await device.open();
         device.selectConfiguration(1); // Select configuration #1 
         device.claimInterface(0);  // Request control over interface #0. 
@@ -251,5 +245,32 @@ function connectDevice()
       return false;     
     }
 }
+
+///////////////////////////////////////////////////
+// Close Device
+///////////////////////////////////////////////////
+function closeDevice()
+{
+    try 
+    {
+      // bulk or interrupt data        
+      await device.transferOut(1, ack_packet1); // CancelaNota
+
+      let result = await device.transferIn(1, 64); // #endpoint 1
+      while (result.data.byteLength != 64);
+
+      await device.close();      
+      document.getElementById('serialNumber').innerHTML = "Numero de Serie";
+      document.getElementById('result').innerHTML ="CMD:";
+      document.getElementById('nota').innerHTML = "NOTA:";    
+      document.getElementById('target').innerHTML = "Retorno:";  
+      return true;
+    } 
+    catch (error) 
+    {
+      console.log(error);   
+      document.getElementById('target').innerHTML = "Retorno: " + error;
+      return false;
+    }    
 
 }) // document
