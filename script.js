@@ -59,28 +59,7 @@ button_5.addEventListener('click',  async() =>
 ///////////////////////////////////////////////////
   button.addEventListener('click', async() => 
   {    
-
-    try 
-    {
-        if (device.serialNumber == SERIAL_NUMBER) 
-        {                                
-          alert("Fabricante:  " + device.manufacturerName +
-                "\nProduto:  " + device.productName +
-                "\nNumero de Serie: " + device.serialNumber);
-          document.getElementById('serialNumber').innerHTML =
-                    "Numero de Serie " + device.serialNumber;
-        }  
-        await device.open();
-        device.selectConfiguration(1); // Select configuration #1 
-        device.claimInterface(0);  // Request control over interface #0.      
-    }
-
-    catch (error) 
-    {
-      console.log(error);
-      document.getElementById('target').innerHTML = "Retorno: " + error;
-      await device.close();  
-    }   
+      connectDevice();
   }) // button
 
 ///////////////////////////////////////////////////
@@ -212,8 +191,8 @@ button_1.addEventListener('click', async() =>
  navigator.usb.addEventListener('connect', evt => 
  {
     document.getElementById('status').innerHTML = "DETECTADO";
-
-    device = await navigator.usb.requestDevice({ filters: filters});
+   
+    connectDevice();
 
     while (true) 
     {
@@ -238,5 +217,36 @@ button_1.addEventListener('click', async() =>
     document.getElementById('status').innerHTML = "DESCONECTADO";
     await device.close();  
  });
+
+
+///////////////////////////////////////////////////
+// Connect Device
+///////////////////////////////////////////////////
+function connectDevice()
+{
+     try 
+    {
+        device = await navigator.usb.requestDevice({ filters: filters});
+
+        if (device.serialNumber == SERIAL_NUMBER) 
+        {                                
+          alert("Fabricante:  " + device.manufacturerName +
+                "\nProduto:  " + device.productName +
+                "\nNumero de Serie: " + device.serialNumber);
+          document.getElementById('serialNumber').innerHTML =
+                    "Numero de Serie " + device.serialNumber;
+        }  
+        await device.open();
+        device.selectConfiguration(1); // Select configuration #1 
+        device.claimInterface(0);  // Request control over interface #0.      
+    }
+
+    catch (error) 
+    {
+      console.log(error);
+      document.getElementById('target').innerHTML = "Retorno: " + error;
+      await device.close();  
+    }
+}
 
 }) // document
