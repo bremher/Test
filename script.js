@@ -224,7 +224,7 @@ button_1.addEventListener('click', async() =>
 
     while (true) 
     {
-        let result = await device.transferIn(1, 64);
+        let result = device.transferIn(1, 64);
         if (result.data && result.data.byteLength === 64) 
         {
           let decoder = new TextDecoder('utf-8');
