@@ -180,7 +180,17 @@ button_1.addEventListener('click', async() =>
       //ReadyToRating
       await device.transferOut(1, ack_packet3); // preparaNota
       let result = await device.transferIn(1, 64); // #endpoint 1
-      while (result.data.byteLength != 64);
+
+
+
+      //ReadRating from endpoint #1
+      await device.transferOut(1, ack_packet2); // LeNota
+      // Waiting for 1 byte from endpoint #1
+      let result = await device.transferIn(1, 64); // #endpoint 1
+      let decoder = new TextDecoder('utf-8');
+      let str = decoder.decode(result.data);  
+
+
 
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";            
