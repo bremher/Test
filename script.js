@@ -13,6 +13,7 @@
   const ack_packet2 = Uint8Array.of(0x81) //ReadRating
   const ack_packet3 = Uint8Array.of(0x82) //ReadyToRating
 
+  document.getElementById('status').innerHTML = "DESCONECTADO";
 
 document.addEventListener('DOMContentLoaded', event => 
 {
@@ -27,13 +28,10 @@ document.addEventListener('DOMContentLoaded', event =>
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
 
-  let device;
+  let device = await navigator.usb.requestDevice({ filters: filters})
   
 button_5.addEventListener('click',  async() => 
 {
-  if (device.serialNumber == null)
-      device =  await navigator.usb.requestDevice({ filters: filters })
-
       if (device.opened == false)
       {    
         await device.open();
@@ -63,10 +61,6 @@ button_5.addEventListener('click',  async() =>
 ///////////////////////////////////////////////////
   button.addEventListener('click', async() => 
   {    
-      device = await navigator.usb.requestDevice(
-      {
-        filters: filters 
-      })
 
     try 
     {
@@ -94,7 +88,6 @@ button_5.addEventListener('click',  async() =>
 ///////////////////////////////////////////////////
 // CancelRating - CancelaNota
 ///////////////////////////////////////////////////
-
 button_1.addEventListener('click', async() => 
   { 
     try 
