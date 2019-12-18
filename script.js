@@ -12,9 +12,7 @@
   const ack_packet1 = Uint8Array.of(0x80) //CancelRating 
   const ack_packet2 = Uint8Array.of(0x81) //ReadRating
   const ack_packet3 = Uint8Array.of(0x82) //ReadyToRating
-
-  document.getElementById('status').innerHTML = "DESCONECTADO";
-
+  
 document.addEventListener('DOMContentLoaded', event => 
 {
   
