@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', event =>
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
 
-  let device = navigator.usb.requestDevice({ filters: filters})
+  let device;
   
 button_5.addEventListener('click',  async() => 
 {
@@ -211,12 +211,16 @@ button_1.addEventListener('click', async() =>
 
  navigator.usb.addEventListener('connect', evt => 
  {
-    document.getElementById('status').innerHTML = "CONNECTADO";
+    document.getElementById('status').innerHTML = "DETECTADO";
+
+    device = await navigator.usb.requestDevice({ filters: filters});
 
     while (true) 
     {
        if (device.opened == true)
        {
+          document.getElementById('status').innerHTML = "CONNECTADO";
+
           let result = device.transferIn(1, 64);
           if (result.data && result.data.byteLength == 64) 
           {
@@ -232,6 +236,7 @@ button_1.addEventListener('click', async() =>
  navigator.usb.addEventListener('disconnect', evt => 
  {
     document.getElementById('status').innerHTML = "DESCONECTADO";
+    await device.close();  
  });
 
 }) // document
