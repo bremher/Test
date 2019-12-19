@@ -24,7 +24,7 @@
   var d = new Date();
   var status = document.getElementById('status');
   
-    if (status == 'AGUARDANDO_NOTA')
+    if (status == 'AGUARDANDO NOTA')
         readDevice();
 
     document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
