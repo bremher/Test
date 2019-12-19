@@ -22,7 +22,7 @@
   function dateTimeNow() 
   {
   var d = new Date();
-  var status = document.getElementById('status');
+  var status = document.getElementById('status').textContent;
   
     if (status == 'AGUARDANDO NOTA')
         readDevice();
@@ -74,48 +74,34 @@ button_5.addEventListener('click',  async() =>
 ///////////////////////////////////////////////////
 // Connect Device
 ///////////////////////////////////////////////////
-  button.addEventListener('click', async() => 
-  {    
+button.addEventListener('click', async() => 
+{    
      connectDevice();
-  }) // button
+}) // button
 
 ///////////////////////////////////////////////////
 // Close Device
 ///////////////////////////////////////////////////
-  button_4.addEventListener('click', async() => 
-  {    
-     closeDevice();
-  }) // button_4
+button_4.addEventListener('click', async() => 
+{    
+   closeDevice();
+}) // button_4
 
 ///////////////////////////////////////////////////
 // CancelRating - CancelaNota
 ///////////////////////////////////////////////////
 button_1.addEventListener('click', async() => 
-  { 
-    try 
-    {
-       // CancelRating 
-       await device.transferOut(1, ack_packet1); // CancelaNota
-       await device.transferIn(1, 64); // #endpoint 1 
-
-       document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
-    } 
-
-    catch (error) 
-    {
-      console.log(error);
-      document.getElementById('target').innerHTML = "Retorno: " + error;
-      await device.close();  
-    }    
-  }) // button_1
+{ 
+   cancelRating()
+}) // button_1
 
 ///////////////////////////////////////////////////
 // ReadRating - LeNota
 ///////////////////////////////////////////////////
-  button_2.addEventListener('click', async() => 
-  {    
-     readDevice();
-  }) // button_2
+button_2.addEventListener('click', async() => 
+{    
+   readDevice();
+}) // button_2
 
 ///////////////////////////////////////////////////
 // ReadyToRating - PreparaNota
@@ -282,6 +268,27 @@ button_1.addEventListener('click', async() =>
     }   
 }
 
+///////////////////////////////////////////////////
+// Cancel Rating - Cancela nota
+///////////////////////////////////////////////////
+async function cancelRating()
+{
+    try 
+    {
+       // CancelRating 
+       await device.transferOut(1, ack_packet1); // CancelaNota
+       await device.transferIn(1, 64); // #endpoint 1 
+
+       document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
+    } 
+
+    catch (error) 
+    {
+      console.log(error);
+      document.getElementById('target').innerHTML = "Retorno: " + error;
+      await device.close();  
+    }    
+}
 
 
 }) // document
