@@ -1,8 +1,22 @@
-// ################################################
-// ## AVANTTEC TECNOLOGIA                      
-// AUTOR: CARIYL KIRSTEN
-// ################################################
+// ###################################################################
+// # PROJECT: WinUSBkeyboard Opniômetro  
+// # 
+// # Project Created 01/12/2019 09:38:01 by Cariyl Kirsten
+// # 
+// # This file generated 29/10/2015 11:04:19
+// # 
+// # Product Name: Avanttec WinUSBkeyboard Opniômetro
+// #        GUID : {58d07210-27c1-11dd-bd0b-0800200c9a66}
+// #  Manufature : Avanttec Tecnologia
+// #
+// #  Filename: script.js
+// #
+// ###################################################################
 'use strict';
+
+// ### defines 
+// ### constants 
+// ### variable
 
   const VENDOR_ID = 0x04D8
   const PRODUCT_ID = 0x3174
@@ -18,6 +32,7 @@
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
   let device;
+  let statusConexion = false;
 
   var myVar = window.setInterval(dateTimeNow, 5000);
 
@@ -26,28 +41,67 @@
 // ################################################
 
 ///////////////////////////////////////////////////
+// Close Device
+///////////////////////////////////////////////////
+async function closeDevice()
+{
+    if (statusConexion == false)
+        return true;
+
+    try 
+    {
+      statusConexion = false;    
+
+      // bulk or interrupt data        
+      await device.transferOut(1, ack_packet1); // CancelaNota
+
+      let result = await device.transferIn(1, 64); // #endpoint 1
+      while (result.data.byteLength != 64);
+
+      await device.close();        
+      document.getElementById('serialNumber').innerHTML = "Numero de Serie";
+      document.getElementById('result').innerHTML ="CMD:";
+      document.getElementById('nota').innerHTML = "NOTA:";    
+      document.getElementById('target').innerHTML = "Retorno:";        
+      return true;
+    } 
+    catch (error) 
+    {
+      document.getElementById('target').innerHTML = "Retorno: " + error;
+      statusConexion = false;    
+      return false;
+    }    
+}
+
+///////////////////////////////////////////////////
 // Connect Device
 ///////////////////////////////////////////////////
 async function connectDevice()
 {
-     try 
-    {
+    if (statusConexion == true)     
+        return true;
+
+    try 
+    {        
         device = await navigator.usb.requestDevice({ filters: filters});
 
         if (device.serialNumber == SERIAL_NUMBER) 
         {                                
-          alert("Fabricante:  " + device.manufacturerName +
+          alert("Fabricante: " + device.manufacturerName +
                 "\nProduto:  " + device.productName +
-                "\nNumero de Serie: " + device.serialNumber);
+                "\nNúmero de Serie: " + device.serialNumber);
           document.getElementById('serialNumber').innerHTML =
-                    "Numero de Serie " + device.serialNumber;
+                    "Número de Serie " + device.serialNumber;
         }  
 
         await device.open();
         device.selectConfiguration(1); // Select configuration #1 
         device.claimInterface(0);  // Request control over interface #0. 
         if (device.opened == true)
+        {
             document.getElementById('status').innerHTML = "CONNECTADO";
+            statusConexion = true;
+        }
         return true;     
     }
 
@@ -56,37 +110,9 @@ async function connectDevice()
       console.log(error);
       document.getElementById('target').innerHTML = "Retorno: " + error;
       if (device.opened == true)
-         await device.close();  
+          closeDevice();
       return false;     
     }
-}
-
-///////////////////////////////////////////////////
-// Close Device
-///////////////////////////////////////////////////
-async function closeDevice()
-{
-    try 
-    {
-      // bulk or interrupt data        
-      await device.transferOut(1, ack_packet1); // CancelaNota
-
-      let result = await device.transferIn(1, 64); // #endpoint 1
-      while (result.data.byteLength != 64);
-
-      await device.close();      
-      document.getElementById('serialNumber').innerHTML = "Numero de Serie";
-      document.getElementById('result').innerHTML ="CMD:";
-      document.getElementById('nota').innerHTML = "NOTA:";    
-      document.getElementById('target').innerHTML = "Retorno:";  
-      return true;
-    } 
-    catch (error) 
-    {
-      console.log(error);   
-      document.getElementById('target').innerHTML = "Retorno: " + error;
-      return false;
-    }    
 }
 
 ///////////////////////////////////////////////////
@@ -94,6 +120,9 @@ async function closeDevice()
 ///////////////////////////////////////////////////
 async function readDevice()
 {
+    if (statusConexion == false)
+        return;
+
     try 
     {
       //ReadRating from endpoint #1
@@ -144,7 +173,7 @@ async function readDevice()
     {
       console.log(error);
       document.getElementById('target').innerHTML = "Retorno: " + error;
-      await device.close();  
+      closeDevice();
     }   
 }
 
@@ -153,6 +182,9 @@ async function readDevice()
 ///////////////////////////////////////////////////
 async function cancelRating()
 {
+    if (statusConexion == false)
+        return;
+
     try 
     {
        // CancelRating 
@@ -166,7 +198,7 @@ async function cancelRating()
     {
       console.log(error);
       document.getElementById('target').innerHTML = "Retorno: " + error;
-      await device.close();  
+      closeDevice();
     }    
 }
 
@@ -175,6 +207,9 @@ async function cancelRating()
 ///////////////////////////////////////////////////
 async function readyToRating()
 {
+    if (statusConexion == false)
+        return;
+
     try 
     {
       //ReadyToRating
@@ -191,6 +226,7 @@ async function readyToRating()
     {
       console.log(error);  
       document.getElementById('target').innerHTML = "Retorno: " + error;
+      closeDevice();
     }    
 }
 ///////////////////////////////////////////////////
