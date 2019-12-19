@@ -217,7 +217,7 @@ async function cancelRating()
 ///////////////////////////////////////////////////
 async function readyToRating()
 {
-    if (statusConexion == false)
+    if (statusConexion == true)
         return false;
 
     try 
