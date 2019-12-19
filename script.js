@@ -1,3 +1,7 @@
+// ################################################
+// ## AVANTTEC TECNOLOGIA                      
+// AUTOR: CARIYL KIRSTEN
+// ################################################
 'use strict';
 
   const VENDOR_ID = 0x04D8
@@ -12,6 +16,8 @@
   const ack_packet1 = Uint8Array.of(0x80) //CancelRating 
   const ack_packet2 = Uint8Array.of(0x81) //ReadRating
   const ack_packet3 = Uint8Array.of(0x82) //ReadyToRating
+
+  var myVar = setInterval(dateTimeNow, 5000);
   
 document.addEventListener('DOMContentLoaded', event => 
 {
@@ -70,7 +76,6 @@ button_5.addEventListener('click',  async() =>
      closeDevice();
   }) // button_4
 
-
 ///////////////////////////////////////////////////
 // CancelRating - CancelaNota
 ///////////////////////////////////////////////////
@@ -98,55 +103,7 @@ button_1.addEventListener('click', async() =>
 ///////////////////////////////////////////////////
   button_2.addEventListener('click', async() => 
   {    
-    try 
-    {
-      //ReadRating from endpoint #1
-      await device.transferOut(1, ack_packet2); // LeNota
-
-//      await device.controlTransferOut({
-//              requestType: 'vendor',  // standard - class - vendor
-//              recipient: 'endpoint',  // device - interface - endpoint - other
-//              request: 0x03,          // enable channels
-//              value: 0x03,            // 0000 0011 (channels 1, and 2)
-//              index: 0x01   });       // The recipient number
-
-      //Get push scancode from button
-      // Waiting for 1 byte from endpoint #1
-      let result = await device.transferIn(1, 64); // #endpoint 1
-      let decoder = new TextDecoder('utf-8');
-      let str = decoder.decode(result.data);  
-
-      let header = parseInt(str.charCodeAt(0).toString(16), 10);
-      let cmd = parseInt(str.charCodeAt(1).toString(16), 10);
-      let nota = str[2];
-
-      // header 0x81 (0) + command (1)    // debuger
-      //document.getElementById('target').innerHTML = 'Received: ' + str;
-
-      if (cmd == 0x04)  // AVANTTEC_NOTA_EM_ESPERA 0x04
-      { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
-        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
-      }
-      if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
-      { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
-        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
-      }
-      if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
-      { document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
-        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
-      }
-      if (cmd == 0x07)  // AVANTTEC_NOTA_CANCELADA 0x07
-      {   document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
-          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
-      }
-    } 
-
-    catch (error) 
-    {
-      console.log(error);
-      document.getElementById('target').innerHTML = "Retorno: " + error;
-      await device.close();  
-    }    
+     readDevice();
   }) // button_2
 
 ///////////////////////////////////////////////////
@@ -159,6 +116,8 @@ button_1.addEventListener('click', async() =>
       //ReadyToRating
       await device.transferOut(1, ack_packet3); // preparaNota
       let result = await device.transferIn(1, 64); // #endpoint 1
+
+      document.getElementById('status').innerHTML = "AGUARDANDO NOTA"; 
 
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";            
@@ -177,32 +136,8 @@ button_1.addEventListener('click', async() =>
 
  navigator.usb.addEventListener('connect', event => 
  {
-    document.getElementById('status').innerHTML = "DETECTADO";
-   
-    setTimeOut(connectDevice,8000);
-
-
-    if (device.opened == true)
-    {
-      while (true) 
-      {
-         if (device.opened == true)
-         {
-            document.getElementById('status').innerHTML = "CONNECTADO";
-
-            let result = device.transferIn(1, 64);
-            if (result.data && result.data.byteLength == 64) 
-            {
-              let decoder = new TextDecoder('utf-8');
-              let str = decoder.decode(result.data);  
-              let nota = str[2];
-              document.getElementById('target').innerHTML = "Recebeu: " + nota;
-            }
-         }
-      }
-    }
+    document.getElementById('status').innerHTML = "DETECTADO"; 
  });
-
 
  navigator.usb.addEventListener('disconnect', evt => 
  {
@@ -214,6 +149,17 @@ button_1.addEventListener('click', async() =>
 // ################################################
 // ##     F U N C T I O N S                      ##
 // ################################################
+
+function dateTimeNow() 
+{
+  var d = new Date();
+  var status = document.getElementById('status');
+  
+  if (status == 'AGUARDANDO_NOTA')
+      readDevice();
+
+  document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
+}
 
 
 ///////////////////////////////////////////////////
@@ -237,6 +183,8 @@ button_1.addEventListener('click', async() =>
         await device.open();
         device.selectConfiguration(1); // Select configuration #1 
         device.claimInterface(0);  // Request control over interface #0. 
+        if (device.opened == true)
+            document.getElementById('status').innerHTML = "CONNECTADO";
         return true;     
     }
 
@@ -278,7 +226,67 @@ button_1.addEventListener('click', async() =>
     }    
  }
 
+///////////////////////////////////////////////////
+// Read Device
+///////////////////////////////////////////////////
+ async function readDevice()
+ {
+    try 
+    {
+      //ReadRating from endpoint #1
+      await device.transferOut(1, ack_packet2); // LeNota
+
+//      await device.controlTransferOut({
+//              requestType: 'vendor',  // standard - class - vendor
+//              recipient: 'endpoint',  // device - interface - endpoint - other
+//              request: 0x03,          // enable channels
+//              value: 0x03,            // 0000 0011 (channels 1, and 2)
+//              index: 0x01   });       // The recipient number
+
+      //Get push scancode from button
+      // Waiting for 64 bytes from endpoint #1
+      let result = await device.transferIn(1, 64); // #endpoint 1
+      let decoder = new TextDecoder('utf-8');
+      let str = decoder.decode(result.data);  
+
+      let header = parseInt(str.charCodeAt(0).toString(16), 10);
+      let cmd = parseInt(str.charCodeAt(1).toString(16), 10);
+      let nota = str[2];
+
+      // header 0x81 (0) + command (1)    // debuger
+      //document.getElementById('target').innerHTML = 'Received: ' + str;
+
+      if (cmd == 0x04)  // AVANTTEC_NOTA_EM_ESPERA 0x04
+      { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
+        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+      }
+      if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
+      { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
+        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+      }
+      if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
+      { document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
+        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+      }
+      if (cmd == 0x07)  // AVANTTEC_NOTA_CANCELADA 0x07
+      {   document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
+          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+      }
+    } 
+
+    catch (error) 
+    {
+      console.log(error);
+      document.getElementById('target').innerHTML = "Retorno: " + error;
+      await device.close();  
+    }   
+}
+
+
+
 }) // document
+
+
 
 
 
