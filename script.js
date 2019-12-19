@@ -12,7 +12,13 @@
 // #  Filename: script.js
 // #
 // ###################################################################
-'use strict';
+
+///////////////////////
+// DIRECTIVE DEFINE
+///////////////////////
+'use strict'; // all code in the script will execute in strict mode
+
+
 
 // ### defines 
 // ### constants 
@@ -33,7 +39,6 @@
                     productId: PRODUCT_ID}];
   let device;
   let statusConexion = false;
-
   
 ///////////////////////////////////////////////////
 // repeats a function at every time-interval
@@ -49,7 +54,7 @@
 ///////////////////////////////////////////////////
 async function closeDevice()
 {
-    if (statusConexion == false)
+    if (statusConexion == false) // fail if not connected ...
         return false;
 
     try 
@@ -81,7 +86,7 @@ async function closeDevice()
 ///////////////////////////////////////////////////
 async function connectDevice()
 {
-    if (statusConexion == false)
+    if (statusConexion == true) // fail if connected ...
        return false;
 
     try 
@@ -125,7 +130,7 @@ async function connectDevice()
 ///////////////////////////////////////////////////
 async function readDevice()
 {
-    if (statusConexion == false)
+    if (statusConexion == false) // fail if not connected ...
        return false;
 
     try 
@@ -190,7 +195,7 @@ async function readDevice()
 ///////////////////////////////////////////////////
 async function cancelRating()
 {
-    if (statusConexion == false)
+    if (statusConexion == false) // fail if not connected ...
        return false;
 
     try 
@@ -217,7 +222,7 @@ async function cancelRating()
 ///////////////////////////////////////////////////
 async function readyToRating()
 {
-    if (statusConexion == true)
+    if (statusConexion == false) // fail if not connected ...
         return false;
 
     try 
