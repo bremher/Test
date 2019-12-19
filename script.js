@@ -18,6 +18,17 @@
   const ack_packet3 = Uint8Array.of(0x82) //ReadyToRating
 
   var myVar = window.setInterval(dateTimeNow, 5000);
+
+  function dateTimeNow() 
+  {
+  var d = new Date();
+  var status = document.getElementById('status');
+  
+    if (status == 'AGUARDANDO_NOTA')
+        readDevice();
+
+    document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
+  }
   
 document.addEventListener('DOMContentLoaded', event => 
 {
@@ -149,17 +160,6 @@ button_1.addEventListener('click', async() =>
 // ################################################
 // ##     F U N C T I O N S                      ##
 // ################################################
-
-function dateTimeNow() 
-{
-  var d = new Date();
-  var status = document.getElementById('status');
-  
-  if (status == 'AGUARDANDO_NOTA')
-      readDevice();
-
-  document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
-}
 
 
 ///////////////////////////////////////////////////
