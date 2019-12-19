@@ -249,14 +249,17 @@ button_2.addEventListener('click', async() =>
       if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
       { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
         document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+        document.getElementById('status').innerHTML = "NOTA EFETUADA";
       }
       if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
       { document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
         document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+        document.getElementById('status').innerHTML = "CANCELAMENTO NAO PERMITIDO";
       }
       if (cmd == 0x07)  // AVANTTEC_NOTA_CANCELADA 0x07
       {   document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
           document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+          document.getElementById('status').innerHTML = "NOTA CANCELADA";
       }
     } 
 
