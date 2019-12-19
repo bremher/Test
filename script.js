@@ -34,7 +34,11 @@
   let device;
   let statusConexion = false;
 
-  var myVar = window.setInterval(dateTimeNow, 5000);
+  
+  //////////////////////////////////////////////////
+  // repeats a function at every time-interval
+  //////////////////////////////////////////////////
+  var myVar = window.setInterval(dateTimeNow, 1000);
 
 // ################################################
 // ##     F U N C T I O N S                      ##
@@ -150,7 +154,7 @@ async function readDevice()
 
       if (cmd == 0x04)  // AVANTTEC_NOTA_EM_ESPERA 0x04
       { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
-        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+        document.getElementById('nota').innerHTML = "NOTA: ";
       }
       if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
       { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
