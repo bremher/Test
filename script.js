@@ -50,7 +50,7 @@
 // ################################################
 
 ///////////////////////////////////////////////////
-// Close Device
+// async function Close Device
 ///////////////////////////////////////////////////
 async function closeDevice()
 {
@@ -169,6 +169,7 @@ async function readDevice()
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
          document.getElementById('status').innerHTML = "NOTA EFETUADA";
+         Relat();
       }
       if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
       {  document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
@@ -179,6 +180,7 @@ async function readDevice()
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
          document.getElementById('status').innerHTML = "NOTA CANCELADA";
+         Relat(); 
       }
     } 
 
@@ -257,6 +259,15 @@ function dateTimeNow()
         readDevice();
 
     document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
+}
+
+function Relat() 
+{
+  var node = document.createElement("LI");
+  var nota = document.getElementById('status').textContent;
+
+  node.appendChild(nota);
+  document.getElementById("List").appendChild(node);
 }
   
 // ################################################
