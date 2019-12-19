@@ -19,134 +19,9 @@
 
   var myVar = window.setInterval(dateTimeNow, 5000);
 
-  function dateTimeNow() 
-  {
-  var d = new Date();
-  var status = document.getElementById('status').textContent;
-  
-    if (status == 'AGUARDANDO NOTA')
-        readDevice();
-
-    document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
-  }
-  
-document.addEventListener('DOMContentLoaded', event => 
-{
-  
-  let button = document.getElementById('Connect');
-  let button_1 = document.getElementById('Toggle');
-  let button_2 = document.getElementById('Status');
-  let button_3 = document.getElementById('Blink');
-  let button_4 = document.getElementById('Close');
-  let button_5 = document.getElementById('usbLookup');
-
-  const filters = [{vendorId: VENDOR_ID,  
-                    productId: PRODUCT_ID}];
-
-  let device;
-  
-button_5.addEventListener('click',  async() => 
-{
-      if (device.opened == false)
-      {    
-        await device.open();
-        await device.selectConfiguration(1); // Select configuration #1 
-        await device.claimInterface(0);  // Request control over interface #0.
-      } 
-
-      try 
-      {
-        //ReadyToRating
-         await device.transferOut(1, ack_packet3); // preparaNota
-         await device.transferIn(1, 64); // #endpoint 1
-
-         document.getElementById('result').innerHTML = "CMD: "+'AGUARDANDO_NOTA';
-         document.getElementById('target').innerHTML = "Retorno:";
-      } 
-
-      catch (error) 
-      {
-        console.log(error);  
-        document.getElementById('target').innerHTML = "Retorno: " + error;
-      }    
-});
-
-///////////////////////////////////////////////////
-// Connect Device
-///////////////////////////////////////////////////
-button.addEventListener('click', async() => 
-{    
-     connectDevice();
-}) // button
-
-///////////////////////////////////////////////////
-// Close Device
-///////////////////////////////////////////////////
-button_4.addEventListener('click', async() => 
-{    
-   closeDevice();
-}) // button_4
-
-///////////////////////////////////////////////////
-// CancelRating - CancelaNota
-///////////////////////////////////////////////////
-button_1.addEventListener('click', async() => 
-{ 
-   cancelRating()
-}) // button_1
-
-///////////////////////////////////////////////////
-// ReadRating - LeNota
-///////////////////////////////////////////////////
-button_2.addEventListener('click', async() => 
-{    
-   readDevice();
-}) // button_2
-
-///////////////////////////////////////////////////
-// ReadyToRating - PreparaNota
-///////////////////////////////////////////////////
- button_3.addEventListener('click', async() => 
-  {    
-    try 
-    {
-      //ReadyToRating
-      await device.transferOut(1, ack_packet3); // preparaNota
-      let result = await device.transferIn(1, 64); // #endpoint 1
-
-      document.getElementById('status').innerHTML = "AGUARDANDO NOTA"; 
-
-      document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
-      document.getElementById('nota').innerHTML = "NOTA: ...";            
-    } 
-
-    catch (error) 
-    {
-      console.log(error);  
-      document.getElementById('target').innerHTML = "Retorno: " + error;
-    }    
-  }) // button_3 - PreparaNota
-
-// ################################################
-//  ##           E V E N T S                    ##
-// ################################################
-
- navigator.usb.addEventListener('connect', event => 
- {
-    document.getElementById('status').innerHTML = "DETECTADO"; 
- });
-
- navigator.usb.addEventListener('disconnect', evt => 
- {
-    document.getElementById('status').innerHTML = "DESCONECTADO";
-    if (device.opened == true)
-        closeDevice();
- });
-
 // ################################################
 // ##     F U N C T I O N S                      ##
 // ################################################
-
 
 ///////////////////////////////////////////////////
 // Connect Device
@@ -293,6 +168,135 @@ async function cancelRating()
     }    
 }
 
+///////////////////////////////////////////////////
+// dateTimeNow
+///////////////////////////////////////////////////
+  function dateTimeNow() 
+  {
+  var d = new Date();
+  var status = document.getElementById('status').textContent;
+  
+    if (status == 'AGUARDANDO NOTA')
+        readDevice();
+
+    document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
+  }
+  
+// ################################################
+//  ##      E v e n t L i s t e n e r           ##
+// ################################################
+document.addEventListener('DOMContentLoaded', event => 
+{
+  
+  let button = document.getElementById('Connect');
+  let button_1 = document.getElementById('Toggle');
+  let button_2 = document.getElementById('Status');
+  let button_3 = document.getElementById('Blink');
+  let button_4 = document.getElementById('Close');
+  let button_5 = document.getElementById('usbLookup');
+
+  const filters = [{vendorId: VENDOR_ID,  
+                    productId: PRODUCT_ID}];
+
+  let device;
+  
+button_5.addEventListener('click',  async() => 
+{
+      if (device.opened == false)
+      {    
+        await device.open();
+        await device.selectConfiguration(1); // Select configuration #1 
+        await device.claimInterface(0);  // Request control over interface #0.
+      } 
+
+      try 
+      {
+        //ReadyToRating
+         await device.transferOut(1, ack_packet3); // preparaNota
+         await device.transferIn(1, 64); // #endpoint 1
+
+         document.getElementById('result').innerHTML = "CMD: "+'AGUARDANDO_NOTA';
+         document.getElementById('target').innerHTML = "Retorno:";
+      } 
+
+      catch (error) 
+      {
+        console.log(error);  
+        document.getElementById('target').innerHTML = "Retorno: " + error;
+      }    
+});
+
+///////////////////////////////////////////////////
+// Connect Device
+///////////////////////////////////////////////////
+button.addEventListener('click', async() => 
+{    
+     connectDevice();
+}) // button
+
+///////////////////////////////////////////////////
+// Close Device
+///////////////////////////////////////////////////
+button_4.addEventListener('click', async() => 
+{    
+   closeDevice();
+}) // button_4
+
+///////////////////////////////////////////////////
+// CancelRating - CancelaNota
+///////////////////////////////////////////////////
+button_1.addEventListener('click', async() => 
+{ 
+   cancelRating()
+}) // button_1
+
+///////////////////////////////////////////////////
+// ReadRating - LeNota
+///////////////////////////////////////////////////
+button_2.addEventListener('click', async() => 
+{    
+   readDevice();
+}) // button_2
+
+///////////////////////////////////////////////////
+// ReadyToRating - PreparaNota
+///////////////////////////////////////////////////
+ button_3.addEventListener('click', async() => 
+  {    
+    try 
+    {
+      //ReadyToRating
+      await device.transferOut(1, ack_packet3); // preparaNota
+      let result = await device.transferIn(1, 64); // #endpoint 1
+
+      document.getElementById('status').innerHTML = "AGUARDANDO NOTA"; 
+
+      document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
+      document.getElementById('nota').innerHTML = "NOTA: ...";            
+    } 
+
+    catch (error) 
+    {
+      console.log(error);  
+      document.getElementById('target').innerHTML = "Retorno: " + error;
+    }    
+  }) // button_3 - PreparaNota
+
+// ################################################
+//  ##           E V E N T S                    ##
+// ################################################
+
+ navigator.usb.addEventListener('connect', event => 
+ {
+    document.getElementById('status').innerHTML = "DETECTADO"; 
+ });
+
+ navigator.usb.addEventListener('disconnect', evt => 
+ {
+    document.getElementById('status').innerHTML = "DESCONECTADO";
+    if (device.opened == true)
+        closeDevice();
+ });
 
 }) // document
 
