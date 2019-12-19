@@ -32,7 +32,7 @@
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
   let device;
-  let statusConexion = true;
+  let statusConexion = false;
 
   
 ///////////////////////////////////////////////////
@@ -50,7 +50,7 @@
 async function closeDevice()
 {
     if (statusConexion == false)
-        return true;
+        return false;
 
     try 
     {
@@ -64,8 +64,8 @@ async function closeDevice()
       statusConexion = false;
       document.getElementById('serialNumber').innerHTML = "Numero de Serie";
       document.getElementById('result').innerHTML ="CMD:";
-      document.getElementById('nota').innerHTML = "NOTA:";    
-      document.getElementById('target').innerHTML = "Retorno:";          
+      document.getElementById('nota').innerHTML = "NOTA:";
+      document.getElementById('target').innerHTML = "Retorno:";
       return true;
     } 
     catch (error) 
@@ -82,7 +82,7 @@ async function closeDevice()
 async function connectDevice()
 {
     if (statusConexion == false)
-       return true;
+       return false;
 
     try 
     {        
@@ -126,7 +126,7 @@ async function connectDevice()
 async function readDevice()
 {
     if (statusConexion == false)
-       return true;
+       return false;
 
     try 
     {
@@ -191,7 +191,7 @@ async function readDevice()
 async function cancelRating()
 {
     if (statusConexion == false)
-       return true;
+       return false;
 
     try 
     {
@@ -218,7 +218,7 @@ async function cancelRating()
 async function readyToRating()
 {
     if (statusConexion == false)
-        return;
+        return false;
 
     try 
     {      
@@ -241,7 +241,7 @@ async function readyToRating()
     }    
 }
 ///////////////////////////////////////////////////
-// dateTimeNow
+// dateTimeNow - atualiza data do sistema
 ///////////////////////////////////////////////////
 function dateTimeNow() 
 {
@@ -270,28 +270,13 @@ document.addEventListener('DOMContentLoaded', event =>
     
 button_5.addEventListener('click',  async() => 
 {
-      if (device.opened == false)
-      {    
-        await device.open();
-        await device.selectConfiguration(1); // Select configuration #1 
-        await device.claimInterface(0);  // Request control over interface #0.
-      } 
+   if (statusConexion == false)
+      return;
 
-      try 
-      {
-        //ReadyToRating
-         await device.transferOut(1, ack_packet3); // preparaNota
-         await device.transferIn(1, 64); // #endpoint 1
-
-         document.getElementById('result').innerHTML = "CMD: "+'AGUARDANDO_NOTA';
-         document.getElementById('target').innerHTML = "Retorno:";
-      } 
-
-      catch (error) 
-      {
-        console.log(error);  
-        document.getElementById('target').innerHTML = "Retorno: " + error;
-      }    
+   document.getElementById('serialNumber').innerHTML = "Numero de Serie";
+   document.getElementById('result').innerHTML ="CMD:";
+   document.getElementById('nota').innerHTML = "NOTA:";
+   document.getElementById('target').innerHTML = "Retorno:";
 });
 
 ///////////////////////////////////////////////////
