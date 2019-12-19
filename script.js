@@ -18,7 +18,7 @@
 // ### constants 
 // ### variable
 
-  const VENDOR_ID = 0x04D8
+  const VENDOR_ID  = 0x04D8
   const PRODUCT_ID = 0x3174
   const CLASS_CODE = 0xFF
   const SUBCLASS_CODE = 0xFF
@@ -32,12 +32,12 @@
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
   let device;
-  let statusConexion = false;
+  let statusConexion = true;
 
   
-  //////////////////////////////////////////////////
-  // repeats a function at every time-interval
-  //////////////////////////////////////////////////
+///////////////////////////////////////////////////
+// repeats a function at every time-interval
+///////////////////////////////////////////////////
   var myVar = window.setInterval(dateTimeNow, 1000);
 
 // ################################################
@@ -54,19 +54,18 @@ async function closeDevice()
 
     try 
     {
-      statusConexion = false;    
-
       // bulk or interrupt data        
       await device.transferOut(1, ack_packet1); // CancelaNota
 
       let result = await device.transferIn(1, 64); // #endpoint 1
       while (result.data.byteLength != 64);
-
       await device.close();        
+
+      statusConexion = false;
       document.getElementById('serialNumber').innerHTML = "Numero de Serie";
       document.getElementById('result').innerHTML ="CMD:";
       document.getElementById('nota').innerHTML = "NOTA:";    
-      document.getElementById('target').innerHTML = "Retorno:";        
+      document.getElementById('target').innerHTML = "Retorno:";          
       return true;
     } 
     catch (error) 
@@ -82,8 +81,8 @@ async function closeDevice()
 ///////////////////////////////////////////////////
 async function connectDevice()
 {
-    if (statusConexion == true)     
-        return true;
+    if (statusConexion == false)
+       return true;
 
     try 
     {        
@@ -104,6 +103,7 @@ async function connectDevice()
         if (device.opened == true)
         {
             document.getElementById('status').innerHTML = "CONNECTADO";
+            document.getElementById('target').innerHTML = "Retorno: ";
             statusConexion = true;
         }
         return true;     
@@ -111,11 +111,12 @@ async function connectDevice()
 
     catch (error) 
     {
-      console.log(error);
-      document.getElementById('target').innerHTML = "Retorno: " + error;
-      if (device.opened == true)
-          closeDevice();
-      return false;     
+        console.log(error);
+        document.getElementById('target').innerHTML = "Retorno: " + error;
+
+        if (statusConexion == true)
+            closeDevice();
+        return false;     
     }
 }
 
@@ -125,7 +126,7 @@ async function connectDevice()
 async function readDevice()
 {
     if (statusConexion == false)
-        return;
+       return true;
 
     try 
     {
@@ -149,27 +150,30 @@ async function readDevice()
       let cmd = parseInt(str.charCodeAt(1).toString(16), 10);
       let nota = str[2];
 
+      statusConexion = true;  
+      document.getElementById('target').innerHTML = "Retorno: ";
+
       // header 0x81 (0) + command (1)    // debuger
       //document.getElementById('target').innerHTML = 'Received: ' + str;
 
       if (cmd == 0x04)  // AVANTTEC_NOTA_EM_ESPERA 0x04
-      { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
-        document.getElementById('nota').innerHTML = "NOTA: ";
+      {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
+         document.getElementById('nota').innerHTML = "NOTA: ";
       }
       if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
-      { document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
-        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
-        document.getElementById('status').innerHTML = "NOTA EFETUADA";
+      {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
+         document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+         document.getElementById('status').innerHTML = "NOTA EFETUADA";
       }
       if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
-      { document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
-        document.getElementById('nota').innerHTML = "NOTA: "+ nota;
-        document.getElementById('status').innerHTML = "CANCELAMENTO NAO PERMITIDO";
+      {  document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
+         document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+         document.getElementById('status').innerHTML = "CANCELAMENTO NAO PERMITIDO";
       }
       if (cmd == 0x07)  // AVANTTEC_NOTA_CANCELADA 0x07
-      {   document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
-          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
-          document.getElementById('status').innerHTML = "NOTA CANCELADA";
+      {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
+         document.getElementById('nota').innerHTML = "NOTA: "+ nota;
+         document.getElementById('status').innerHTML = "NOTA CANCELADA";
       }
     } 
 
@@ -187,7 +191,7 @@ async function readDevice()
 async function cancelRating()
 {
     if (statusConexion == false)
-        return;
+       return true;
 
     try 
     {
@@ -195,7 +199,9 @@ async function cancelRating()
        await device.transferOut(1, ack_packet1); // CancelaNota
        await device.transferIn(1, 64); // #endpoint 1 
 
+       statusConexion = true;
        document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
+       document.getElementById('target').innerHTML = "Retorno: ";
     } 
 
     catch (error) 
@@ -215,15 +221,16 @@ async function readyToRating()
         return;
 
     try 
-    {
+    {      
       //ReadyToRating
       await device.transferOut(1, ack_packet3); // preparaNota
       let result = await device.transferIn(1, 64); // #endpoint 1
 
+      statusConexion = true;
       document.getElementById('status').innerHTML = "AGUARDANDO NOTA"; 
-
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
-      document.getElementById('nota').innerHTML = "NOTA: ...";            
+      document.getElementById('nota').innerHTML = "NOTA: ...";       
+      document.getElementById('target').innerHTML = "Retorno: ";     
     } 
 
     catch (error) 
