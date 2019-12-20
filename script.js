@@ -295,7 +295,7 @@ button_5.addEventListener('click',  async() =>
 ///////////////////////////////////////////////////
 button.addEventListener('click', async() => 
 {    
-  if (connectDevice() == true)  // expressioon boolean
+  if (Boolean(connectDevice()) == true)  // expressioon boolean
       readDevice(); // check the status before connected
 }) // button- ConnectDevice
 
