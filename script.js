@@ -296,7 +296,7 @@ button_5.addEventListener('click',  async() =>
 ///////////////////////////////////////////////////
 button.addEventListener('click', async() => 
 {    
-  if ((connectDevice())
+  if (connectDevice() == true)  // expressioon boolean
       readDevice(); // check the status before connected
 }) // button- ConnectDevice
 
@@ -344,7 +344,7 @@ button_3.addEventListener('click', async() =>
  navigator.usb.addEventListener('disconnect', evt => 
  {
     document.getElementById('status').innerHTML = "DESCONECTADO";
-    if (device.opened == true)
+    if (statusConexion == true)
         closeDevice();
  });
 
