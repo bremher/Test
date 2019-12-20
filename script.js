@@ -157,11 +157,7 @@ async function readDevice()
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
          document.getElementById('status').innerHTML = "NOTA EFETUADA";
-         if (bRating == true)
-         {
-              Relat();
-              bRating = false;
-         }     
+         Relat();              
       }
       if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
       {  document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
@@ -172,11 +168,7 @@ async function readDevice()
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
          document.getElementById('status').innerHTML = "NOTA CANCELADA";
-         if (bRating == true)
-         {
-              Relat();
-              bRating = false;
-         }     
+         Relat();
       }
     } 
 
@@ -261,11 +253,15 @@ function dateTimeNow()
 
 function Relat() 
 {
-  var node = document.createElement("LI");
-  var nota = document.getElementById('nota').textContent;
-  var textnode = document.createTextNode(nota);
-  node.appendChild(textnode);
-  document.getElementById("List").appendChild(node);
+  if (bRating == true)
+  {
+    var node = document.createElement("LI");
+    var nota = document.getElementById('nota').textContent;
+    var textnode = document.createTextNode(nota);
+    node.appendChild(textnode);
+    document.getElementById("List").appendChild(node);
+    bRating = false;
+  }  
 }
   
 // ################################################
