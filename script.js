@@ -264,7 +264,7 @@ function dateTimeNow()
 function Relat() 
 {
   var node = document.createElement("LI");
-  var nota = document.getElementById('status').textContent;
+  var nota = document.getElementById('nota').textContent;
   var textnode = document.createTextNode(nota);
   node.appendChild(textnode);
   document.getElementById("List").appendChild(node);
