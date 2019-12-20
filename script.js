@@ -1,29 +1,17 @@
 // ###################################################################
 // # PROJECT: WinUSBkeyboard Opniômetro  
-// # 
 // # Project Created 01/12/2019 09:38:01 by Cariyl Kirsten
-// # 
 // # This file generated 29/10/2015 11:04:19
-// # 
 // # Product Name: Avanttec WinUSBkeyboard Opniômetro
 // #        GUID : {58d07210-27c1-11dd-bd0b-0800200c9a66}
 // #  Manufature : Avanttec Tecnologia
-// #
 // #  Filename: script.js
-// #
 // ###################################################################
 
-///////////////////////
-// DIRECTIVE DEFINE
-///////////////////////
+// DIRECTIVE DEFINE ************************************************** 
 'use strict'; // all code in the script will execute in strict mode
 
-
-
-// ### defines 
-// ### constants 
-// ### variable
-
+// DEFINES - CONSTANTS - VARIABLES ***********************************
   const VENDOR_ID  = 0x04D8
   const PRODUCT_ID = 0x3174
   const CLASS_CODE = 0xFF
@@ -39,10 +27,10 @@
                     productId: PRODUCT_ID}];
   let device;
   let statusConexion = false;
+  let bRating = false;
   
-///////////////////////////////////////////////////
+// DIRECTIVE MACRO ************************************************** 
 // repeats a function at every time-interval
-///////////////////////////////////////////////////
   var myVar = window.setInterval(dateTimeNow, 1000);
 
 // ################################################
@@ -169,7 +157,11 @@ async function readDevice()
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
          document.getElementById('status').innerHTML = "NOTA EFETUADA";
-         Relat();
+         if (bRating == true)
+         {
+              Relat();
+              bRating = false;
+         }     
       }
       if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
       {  document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
@@ -180,7 +172,11 @@ async function readDevice()
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
          document.getElementById('status').innerHTML = "NOTA CANCELADA";
-         Relat(); 
+         if (bRating == true)
+         {
+              Relat();
+              bRating = false;
+         }     
       }
     } 
 
@@ -206,7 +202,7 @@ async function cancelRating()
        await device.transferOut(1, ack_packet1); // CancelaNota
        await device.transferIn(1, 64); // #endpoint 1 
 
-       statusConexion = true;
+       statusConexion = true;       
        document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
        document.getElementById('target').innerHTML = "Retorno: ";
     } 
@@ -234,10 +230,12 @@ async function readyToRating()
       let result = await device.transferIn(1, 64); // #endpoint 1
 
       statusConexion = true;
+      bRating = true;
       document.getElementById('status').innerHTML = "AGUARDANDO NOTA"; 
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";       
-      document.getElementById('target').innerHTML = "Retorno: ";     
+      document.getElementById('target').innerHTML = "Retorno: ";   
+
     } 
 
     catch (error) 
