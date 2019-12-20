@@ -257,8 +257,8 @@ function Relat()
     var captDate = date.toLocaleTimeString('pt-BR', options)    
 
     var node = document.createElement("LI");
-    var nota = document.getElementById('nota').textContent;
-    var textnode = captDate + "->" + document.createTextNode(nota);
+    var nota = document.getElementById('nota').textContent + " <=> " + captDate;
+    var textnode = document.createTextNode(nota);
     node.appendChild(textnode);
     document.getElementById("List").appendChild(node);
     bRating = false;
