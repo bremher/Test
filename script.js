@@ -143,7 +143,6 @@ async function readDevice()
       let cmd = parseInt(str.charCodeAt(1).toString(16), 10);
       let nota = str[2];
 
-      statusConexion = true;  
       document.getElementById('target').innerHTML = "Retorno: ";
 
       // header 0x81 (0) + command (1)    // debuger
@@ -195,7 +194,6 @@ async function cancelRating()
        await device.transferOut(1, ack_packet1); // CancelaNota
        await device.transferIn(1, 64); // #endpoint 1 
 
-       statusConexion = true;       
        document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
        document.getElementById('target').innerHTML = "Retorno: ";
     } 
@@ -222,7 +220,6 @@ async function readyToRating()
       await device.transferOut(1, ack_packet3); // preparaNota
       let result = await device.transferIn(1, 64); // #endpoint 1
 
-      statusConexion = true;
       bRating = true;
       document.getElementById('status').innerHTML = "AGUARDANDO NOTA"; 
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
