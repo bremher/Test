@@ -254,12 +254,11 @@ function Relat()
   {
     let date = new Date();
     let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    var d = date.toLocaleDateString('pt-BR', options)    
-    var t = date.toLocaleTimeString('pt-BR', options)    
+    var captDate = date.toLocaleTimeString('pt-BR', options)    
 
     var node = document.createElement("LI");
     var nota = document.getElementById('nota').textContent;
-    var textnode = document.createTextNode(nota) + "-" + d + "-" + t;
+    var textnode = captDate + "->" + document.createTextNode(nota);
     node.appendChild(textnode);
     document.getElementById("List").appendChild(node);
     bRating = false;
