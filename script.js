@@ -252,9 +252,14 @@ function Relat()
 {
   if (bRating == true)
   {
+    let date = new Date();
+    let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    var d = date.toLocaleDateString('pt-BR', options)    
+    var t = date.toLocaleTimeeString('pt-BR', options)    
+
     var node = document.createElement("LI");
     var nota = document.getElementById('nota').textContent;
-    var textnode = document.createTextNode(nota);
+    var textnode = document.createTextNode(nota) + "-" + d + "-" + t;
     node.appendChild(textnode);
     document.getElementById("List").appendChild(node);
     bRating = false;
@@ -291,7 +296,7 @@ button_5.addEventListener('click',  async() =>
 ///////////////////////////////////////////////////
 button.addEventListener('click', async() => 
 {    
-  if (connectDevice() == true)    
+  if ((connectDevice())
       readDevice(); // check the status before connected
 }) // button- ConnectDevice
 
