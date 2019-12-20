@@ -265,8 +265,8 @@ function Relat()
 {
   var node = document.createElement("LI");
   var nota = document.getElementById('status').textContent;
-
-  node.appendChild(nota);
+  var textnode = document.createTextNode(nota);
+  node.appendChild(textnode);
   document.getElementById("List").appendChild(node);
 }
   
