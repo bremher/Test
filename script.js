@@ -152,6 +152,7 @@ async function readDevice()
       if (cmd == 0x04)  // AVANTTEC_NOTA_EM_ESPERA 0x04
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
          document.getElementById('nota').innerHTML = "NOTA: ";
+         bRating = true; 
       }
       if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
@@ -227,7 +228,6 @@ async function readyToRating()
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";       
       document.getElementById('target').innerHTML = "Retorno: ";   
-
     } 
 
     catch (error) 
