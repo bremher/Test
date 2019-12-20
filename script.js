@@ -255,7 +255,7 @@ function Relat()
     let date = new Date();
     let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
     var d = date.toLocaleDateString('pt-BR', options)    
-    var t = date.toLocaleTimeeString('pt-BR', options)    
+    var t = date.toLocaleTimeString('pt-BR', options)    
 
     var node = document.createElement("LI");
     var nota = document.getElementById('nota').textContent;
