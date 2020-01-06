@@ -59,7 +59,7 @@ async function closeDevice()
       await device.close();        
 
       statusConexion = false;
-      document.getElementById('serialNumber').innerHTML = "Numero de Serie";
+      document.getElementById('serialNumber').innerHTML = "Número de Serie:";
       document.getElementById('result').innerHTML ="CMD:";
       document.getElementById('nota').innerHTML = "NOTA:";
       document.getElementById('target').innerHTML = "Retorno:";
@@ -341,16 +341,16 @@ button_4.addEventListener('click', async() =>
 navigator.usb.addEventListener('connect', event => 
 {
     document.getElementById('status').innerHTML = "DETECTADO"; 
-});
+})
 
 navigator.usb.addEventListener('disconnect', evt => 
 {
     document.getElementById('status').innerHTML = "DESCONECTADO";
     if (statusConexion == true)
         closeDevice();
-});
+})
 
-}) // document
+}); // document
 
 // ###################################################################################
 // END END END END END END END END END END END END END END END END END END END END END 
