@@ -1,3 +1,6 @@
+// https://github.com/login
+
+
 // ###################################################################
 // # PROJECT: WinUSBkeyboard Opniômetro  
 // # Project Created 01/12/2019 09:38:01 by Cariyl Kirsten
@@ -284,7 +287,7 @@ button_5.addEventListener('click',  async() =>
    if (statusConexion == false)
       return;
 
-   document.getElementById('serialNumber').innerHTML = "Numero de Serie";
+   document.getElementById('serialNumber').innerHTML = "Numero de Serie" + device.serialNumber;
    document.getElementById('result').innerHTML ="CMD:";
    document.getElementById('nota').innerHTML = "NOTA:";
    document.getElementById('target').innerHTML = "Retorno:";
@@ -351,11 +354,3 @@ button_3.addEventListener('click', async() =>
 }) // document
 
 
-
-
-
-/*
-
-
-
-*/
