@@ -1,4 +1,3 @@
-// https://github.com/login
 
 
 // ###################################################################
@@ -90,7 +89,7 @@ async function connectDevice()
                 "\nProduto:  " + device.productName +
                 "\nNúmero de Serie: " + device.serialNumber);
           document.getElementById('serialNumber').innerHTML =
-                    "Número de Serie " + device.serialNumber;
+                    "Número de Serie: " + device.serialNumber;
         }  
 
         await device.open();
@@ -250,7 +249,9 @@ function dateTimeNow()
 
     document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
 }
-
+///////////////////////////////////////////////////
+// Relat - Registra nota de avaliação
+///////////////////////////////////////////////////
 function Relat() 
 {
   if (bRating == true)
@@ -267,46 +268,34 @@ function Relat()
     bRating = false;
   }  
 }
-  
-// ################################################
-//  ##      E v e n t L i s t e n e r           ##
-// ################################################
+// ####################################################################
+//  ##      E v e n t L i s t e n e r      f r o m      D O M       ##
+// ####################################################################
 document.addEventListener('DOMContentLoaded', event => 
 {
   
-  let button = document.getElementById('Connect');
-  let button_1 = document.getElementById('Toggle');
-  let button_2 = document.getElementById('Status');
-  let button_3 = document.getElementById('Blink');
-  let button_4 = document.getElementById('Close');
-  let button_5 = document.getElementById('usbLookup');
-
+  let button_1 = document.getElementById('Connect');
+  let button_2 = document.getElementById('Toggle');
+  let button_3 = document.getElementById('Status');
+  let button_4 = document.getElementById('Blink');
+  let button_5 = document.getElementById('Close');
+  let button_6 = document.getElementById('usbLookup');
     
-button_5.addEventListener('click',  async() => 
+button_6.addEventListener('click',  async() => 
 {
    if (statusConexion == false)
       return;
 
-   document.getElementById('serialNumber').innerHTML = "Numero de Serie" + device.serialNumber;
+   document.getElementById('serialNumber').innerHTML = "Numero de Serie: " + device.serialNumber;
    document.getElementById('result').innerHTML ="CMD:";
    document.getElementById('nota').innerHTML = "NOTA:";
    document.getElementById('target').innerHTML = "Retorno:";
 });
 
 ///////////////////////////////////////////////////
-// Connect Device
-///////////////////////////////////////////////////
-button.addEventListener('click', async() => 
-{    
-    connectDevice();  // expressioon boolean
-    if (statusConexion == true)
-        readDevice(); // check the status before connected
-}) // button- ConnectDevice
-
-///////////////////////////////////////////////////
 // Close Device
 ///////////////////////////////////////////////////
-button_4.addEventListener('click', async() => 
+button_5.addEventListener('click', async() => 
 {    
    closeDevice();
 }) // button_4 - CloseDevice
@@ -314,7 +303,7 @@ button_4.addEventListener('click', async() =>
 ///////////////////////////////////////////////////
 // CancelRating - CancelaNota
 ///////////////////////////////////////////////////
-button_1.addEventListener('click', async() => 
+button_2.addEventListener('click', async() => 
 { 
    cancelRating()
 }) // button_1 - CancelaNota
@@ -322,7 +311,7 @@ button_1.addEventListener('click', async() =>
 ///////////////////////////////////////////////////
 // ReadRating - LeNota
 ///////////////////////////////////////////////////
-button_2.addEventListener('click', async() => 
+button_3.addEventListener('click', async() => 
 {    
    readDevice();
 }) // button_2 - LeNota
@@ -330,7 +319,7 @@ button_2.addEventListener('click', async() =>
 ///////////////////////////////////////////////////
 // ReadyToRating - PreparaNota
 ///////////////////////////////////////////////////
-button_3.addEventListener('click', async() => 
+button_4.addEventListener('click', async() => 
 {    
    readyToRating();
 }) // button_3 - PreparaNota
