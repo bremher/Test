@@ -1,4 +1,6 @@
-
+// https://github.com/login
+// https://bremher.github.io/Test/
+// pass: 4040Br@github$webUsb
 
 // ###################################################################
 // # PROJECT: WinUSBkeyboard Opniômetro  
@@ -114,7 +116,6 @@ async function connectDevice()
         return false;     
     }
 }
-
 ///////////////////////////////////////////////////
 // Read Device
 ///////////////////////////////////////////////////
@@ -181,7 +182,6 @@ async function readDevice()
       closeDevice();
     }   
 }
-
 ///////////////////////////////////////////////////
 // Cancel Rating - Cancela nota
 ///////////////////////////////////////////////////
@@ -207,7 +207,6 @@ async function cancelRating()
       closeDevice();
     }    
 }
-
 ///////////////////////////////////////////////////
 // Ready To Rating - Prepara nota
 ///////////////////////////////////////////////////
@@ -267,20 +266,22 @@ function Relat()
     document.getElementById("List").appendChild(node);
     bRating = false;
   }  
-}
-// ####################################################################
-//  ##      E v e n t L i s t e n e r      f r o m      D O M       ##
-// ####################################################################
+}  
+// ################################################
+//  ##      E v e n t L i s t e n e r           ##
+// ################################################
 document.addEventListener('DOMContentLoaded', event => 
-{
-  
+{  
   let button_1 = document.getElementById('Connect');
   let button_2 = document.getElementById('Toggle');
   let button_3 = document.getElementById('Status');
   let button_4 = document.getElementById('Blink');
   let button_5 = document.getElementById('Close');
   let button_6 = document.getElementById('usbLookup');
-    
+
+///////////////////////////////////////////////////
+// Get serial Number
+///////////////////////////////////////////////////   
 button_6.addEventListener('click',  async() => 
 {
    if (statusConexion == false)
@@ -290,7 +291,17 @@ button_6.addEventListener('click',  async() =>
    document.getElementById('result').innerHTML ="CMD:";
    document.getElementById('nota').innerHTML = "NOTA:";
    document.getElementById('target').innerHTML = "Retorno:";
-});
+})
+
+///////////////////////////////////////////////////
+// Connect Device
+///////////////////////////////////////////////////
+button_1.addEventListener('click', async() => 
+{    
+    connectDevice();  // expressioon boolean
+    if (statusConexion == true)
+        readDevice(); // check the status before connected
+}) // button- ConnectDevice
 
 ///////////////////////////////////////////////////
 // Close Device
@@ -327,19 +338,20 @@ button_4.addEventListener('click', async() =>
 // ################################################
 //  ##           E V E N T S                    ##
 // ################################################
-
- navigator.usb.addEventListener('connect', event => 
- {
+navigator.usb.addEventListener('connect', event => 
+{
     document.getElementById('status').innerHTML = "DETECTADO"; 
- });
+});
 
- navigator.usb.addEventListener('disconnect', evt => 
- {
+navigator.usb.addEventListener('disconnect', evt => 
+{
     document.getElementById('status').innerHTML = "DESCONECTADO";
     if (statusConexion == true)
         closeDevice();
- });
+});
 
 }) // document
 
-
+// ###################################################################################
+// END END END END END END END END END END END END END END END END END END END END END 
+// ###################################################################################
