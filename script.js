@@ -79,8 +79,6 @@ async function closeDevice()
 ///////////////////////////////////////////////////
 async function connectDevice()
 {
- return new Promise(function(resolve, reject)
- {
     if (statusConexion == true) // fail if connected ...
        return false;
 
