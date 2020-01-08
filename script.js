@@ -1,7 +1,7 @@
 // https://github.com/login
 // https://bremher.github.io/Test/
 
-// 08/01/20  14:20
+// 08/01/20  14:40
 
 // ###################################################################
 // # PROJECT: WinUSBkeyboard Opniômetro  
@@ -255,8 +255,11 @@ function dateTimeNow()
   var d = new Date();
   var status = document.getElementById('status').textContent;
   
-    if (status == 'AGUARDANDO NOTA')
-        readDevice();
+    if (statusConexion == false) // if connected ...
+    {
+        if (status == 'AGUARDANDO NOTA')
+            readDevice();
+    }
 
     document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
 }
