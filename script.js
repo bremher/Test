@@ -1,6 +1,6 @@
 // https://github.com/login
 // https://bremher.github.io/Test/
-
+// Password: 4040Brgithub
 // 08/01/20  14:40
 
 // ###################################################################
@@ -32,7 +32,8 @@
                     productId: PRODUCT_ID}];
   let device;
   let statusConexion = false;
-  let bRating = false;
+  Let inRating = false;   // Aguardando nota ?
+  let bRating = false;    // adiciona no relatório ?
   
 // DIRECTIVE MACRO ************************************************** 
 // repeats a function at every time-interval
@@ -110,7 +111,6 @@ async function connectDevice()
             if (readDevice() == true) // AVANTTEC_NOTA_EM_ESPERA 0x04
                 readyToRating();
         }
-
         return true;     
     }
 
@@ -165,25 +165,29 @@ async function readDevice()
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
          document.getElementById('nota').innerHTML = "NOTA: ";
          bRating = true; 
-         status = true;
+         inRating = true;
       }
       if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
          document.getElementById('status').innerHTML = "NOTA EFETUADA";
-         Relat();              
+         inRating = false;
+         Relat();            
       }
       if (cmd == 0x06)  // AVANTTEC_CANCELAMENTO_NAO_PERMITIDO 0x06
       {  document.getElementById('result').innerHTML ="CMD: "+'CANCELAMENTO_NAO_PERMITIDO';
          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
          document.getElementById('status').innerHTML = "CANCELAMENTO NAO PERMITIDO";
+         inRating = false;
       }
       if (cmd == 0x07)  // AVANTTEC_NOTA_CANCELADA 0x07
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
          document.getElementById('nota').innerHTML = "NOTA: "+ nota;
          document.getElementById('status').innerHTML = "NOTA CANCELADA";
+         inRating = false;
          Relat();
       }
+      return true;
     } 
 
     catch (error) 
@@ -191,8 +195,9 @@ async function readDevice()
       console.log(error);
       document.getElementById('target').innerHTML = "Retorno: " + error;
       closeDevice();
+      return false;
     }   
-    return status;
+    
 }
 ///////////////////////////////////////////////////
 // Cancel Rating - Cancela nota
@@ -210,6 +215,7 @@ async function cancelRating()
 
        document.getElementById('result').innerHTML ="CMD: "+'NOTA_CANCELADA';
        document.getElementById('target').innerHTML = "Retorno: ";
+       return true;
     } 
 
     catch (error) 
@@ -217,6 +223,7 @@ async function cancelRating()
       console.log(error);
       document.getElementById('target').innerHTML = "Retorno: " + error;
       closeDevice();
+      return false;
     }    
 }
 ///////////////////////////////////////////////////
@@ -232,12 +239,13 @@ async function readyToRating()
       //ReadyToRating
       await device.transferOut(1, ack_packet3); // preparaNota
       let result = await device.transferIn(1, 64); // #endpoint 1
-
-      bRating = true;
+      
       document.getElementById('status').innerHTML = "AGUARDANDO NOTA"; 
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";       
       document.getElementById('target').innerHTML = "Retorno: ";   
+      bRating = true;
+      return true;
     } 
 
     catch (error) 
@@ -245,6 +253,7 @@ async function readyToRating()
       console.log(error);  
       document.getElementById('target').innerHTML = "Retorno: " + error;
       closeDevice();
+      return false;
     }    
 }
 ///////////////////////////////////////////////////
@@ -255,7 +264,7 @@ function dateTimeNow()
   var d = new Date();
   var status = document.getElementById('status').textContent;
   
-    if (statusConexion == false) // if connected ...
+    if (statusConexion == true) // if connected ...
     {
         if (status == 'AGUARDANDO NOTA')
             readDevice();
