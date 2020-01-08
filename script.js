@@ -1,7 +1,7 @@
 // https://github.com/login
 // https://bremher.github.io/Test/
 // pass: 4040Br@github$webUsb
-// 08/01/20  11:53
+// 08/01/20  13:55
 
 // ###################################################################
 // # PROJECT: WinUSBkeyboard Opniômetro  
@@ -129,6 +129,8 @@ async function connectDevice()
 ///////////////////////////////////////////////////
 async function readDevice()
 {
+  let status = false;
+
     if (statusConexion == false) // fail if not connected ...
        return false;
 
@@ -163,6 +165,7 @@ async function readDevice()
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
          document.getElementById('nota').innerHTML = "NOTA: ";
          bRating = true; 
+         status = true;
       }
       if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
@@ -189,7 +192,7 @@ async function readDevice()
       document.getElementById('target').innerHTML = "Retorno: " + error;
       closeDevice();
     }   
-    return cmd;
+    return status;
 }
 ///////////////////////////////////////////////////
 // Cancel Rating - Cancela nota
