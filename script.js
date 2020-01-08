@@ -79,6 +79,8 @@ async function closeDevice()
 ///////////////////////////////////////////////////
 async function connectDevice()
 {
+ return new Promise(function(resolve, reject)
+ {
     if (statusConexion == true) // fail if connected ...
        return false;
 
@@ -104,6 +106,13 @@ async function connectDevice()
             document.getElementById('target').innerHTML = "Retorno: ";
             statusConexion = true;
         }
+
+        if (statusConexion == true)
+        {
+            if (readDevice() == 0x04) // AVANTTEC_NOTA_EM_ESPERA 0x04
+                readyToRating();
+        }
+
         return true;     
     }
 
@@ -301,10 +310,6 @@ button_6.addEventListener('click',  async() =>
 button_1.addEventListener('click', async() => 
 {    
     connectDevice();  // expressioon boolean
-    if (statusConexion == true)
-       if (readDevice() == 0x04) // AVANTTEC_NOTA_EM_ESPERA 0x04
-           readyToRating();
-
 }) // button- ConnectDevice
 
 ///////////////////////////////////////////////////
