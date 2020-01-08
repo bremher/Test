@@ -31,9 +31,9 @@
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
   let device;
-  let statusConexion = false;
-  Let inRating = false;   // Aguardando nota ?
-  let bRating = false;    // adiciona no relatório ?
+  let statusConexion = false;   // dispositivo conectado ?
+  let inRating = false;         // Aguardando nota ?
+  let bRating = false;          // adiciona no relatório ?
   
 // DIRECTIVE MACRO ************************************************** 
 // repeats a function at every time-interval
@@ -104,10 +104,7 @@ async function connectDevice()
             document.getElementById('status').innerHTML = "CONNECTADO";
             document.getElementById('target').innerHTML = "Retorno: ";
             statusConexion = true;
-        }
-
-        if (statusConexion == true)
-        {
+        
             if (readDevice() == true) // AVANTTEC_NOTA_EM_ESPERA 0x04
                 readyToRating();
         }
