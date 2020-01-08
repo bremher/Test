@@ -102,6 +102,9 @@ async function connectDevice()
             document.getElementById('status').innerHTML = "CONNECTADO";
             document.getElementById('target').innerHTML = "Retorno: ";
             statusConexion = true;
+
+            if (readDevice() == 0x04) // AVANTTEC_NOTA_EM_ESPERA 0x04
+                readyToRating();
         }
         return true;     
     }
@@ -181,6 +184,7 @@ async function readDevice()
       document.getElementById('target').innerHTML = "Retorno: " + error;
       closeDevice();
     }   
+    return cmd;
 }
 ///////////////////////////////////////////////////
 // Cancel Rating - Cancela nota
