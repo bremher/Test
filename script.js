@@ -1,6 +1,7 @@
 // https://github.com/login
 // https://bremher.github.io/Test/
 // pass: 4040Br@github$webUsb
+// 08/01/20  11:53
 
 // ###################################################################
 // # PROJECT: WinUSBkeyboard Opniômetro  
@@ -102,9 +103,6 @@ async function connectDevice()
             document.getElementById('status').innerHTML = "CONNECTADO";
             document.getElementById('target').innerHTML = "Retorno: ";
             statusConexion = true;
-
-            if (readDevice() == 0x04) // AVANTTEC_NOTA_EM_ESPERA 0x04
-                readyToRating();
         }
         return true;     
     }
@@ -304,7 +302,9 @@ button_1.addEventListener('click', async() =>
 {    
     connectDevice();  // expressioon boolean
     if (statusConexion == true)
-        readDevice(); // check the status before connected
+       if (readDevice() == 0x04) // AVANTTEC_NOTA_EM_ESPERA 0x04
+           readyToRating();
+
 }) // button- ConnectDevice
 
 ///////////////////////////////////////////////////
