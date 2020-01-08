@@ -1,7 +1,7 @@
 // https://github.com/login
 // https://bremher.github.io/Test/
-// pass: 4040Br@github$webUsb
-// 08/01/20  13:55
+
+// 08/01/20  14:20
 
 // ###################################################################
 // # PROJECT: WinUSBkeyboard Opniômetro  
@@ -107,7 +107,7 @@ async function connectDevice()
 
         if (statusConexion == true)
         {
-            if (readDevice() == 0x04) // AVANTTEC_NOTA_EM_ESPERA 0x04
+            if (readDevice() == true) // AVANTTEC_NOTA_EM_ESPERA 0x04
                 readyToRating();
         }
 
