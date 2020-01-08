@@ -262,9 +262,9 @@ function dateTimeNow()
   var status = document.getElementById('status').textContent;
   
     if (statusConexion == true) // if connected ...
-    {
-        if (status == 'AGUARDANDO NOTA')
-            readDevice();
+    {        
+          if (inRating == true) // if (status == 'AGUARDANDO NOTA')
+              readDevice();
     }
 
     document.getElementById("DataNow").innerHTML = d.toLocaleTimeString();
