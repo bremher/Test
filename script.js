@@ -43,6 +43,41 @@
 // ##     F U N C T I O N S                      ##
 // ################################################
 
+
+///////////////////////////////////////////////////
+// async function find Device
+///////////////////////////////////////////////////
+async function findDevices()
+{
+    await navigator.usb.getDevices()
+    .then(devices => 
+      {
+          console.log("Total devices: " + devices.length);
+          devices.forEach(device => 
+            {
+                  console.log("Fabricante: " + device.manufacturerName +
+                              "\nProduto:  " + device.productName +
+                              "\nNúmero de Serie: " + device.serialNumber);
+
+                  if (device.serialNumber == SERIAL_NUMBER) 
+                  {                                
+                      await device.open();
+                      await device.selectConfiguration(1); // Select configuration #1 
+                      await device.claimInterface(0);  // Request control over interface #0. 
+                      if (device.opened == true)
+                      {
+                          document.getElementById('status').innerHTML = "CONNECTADO";
+                          document.getElementById('target').innerHTML = "Retorno: ";
+                          statusConexion = true;
+        
+                          if (readDevice() == true) // AVANTTEC_NOTA_EM_ESPERA 0x04
+                              readyToRating();
+                      }
+                 }
+            });
+      });
+}
+
 ///////////////////////////////////////////////////
 // async function Close Device
 ///////////////////////////////////////////////////
@@ -359,35 +394,16 @@ button_4.addEventListener('click', async() =>
 // ################################################
 navigator.usb.addEventListener('connect', event => 
 {
-    document.getElementById('status').innerHTML = "DETECTADO"; 
+const policy = document.featurePolicy;
+const can_use_usb = policy.allowsFeature('usb'); // document can use WebUSB.
 
-    await navigator.usb.getDevices()
-    .then(devices => 
-      {
-          console.log("Total devices: " + devices.length);
-          devices.forEach(device => 
-            {
-                  console.log("Fabricante: " + device.manufacturerName +
-                              "\nProduto:  " + device.productName +
-                              "\nNúmero de Serie: " + device.serialNumber);
+  if (can_use_usb)
+    document.getElementById("can-webusb").innerHTML = "\n Experimental Technology - WebUSB";
 
-                  if (device.serialNumber == SERIAL_NUMBER) 
-                  {                                
-                      await device.open();
-                      await device.selectConfiguration(1); // Select configuration #1 
-                      await device.claimInterface(0);  // Request control over interface #0. 
-                      if (device.opened == true)
-                      {
-                          document.getElementById('status').innerHTML = "CONNECTADO";
-                          document.getElementById('target').innerHTML = "Retorno: ";
-                          statusConexion = true;
-        
-                          if (readDevice() == true) // AVANTTEC_NOTA_EM_ESPERA 0x04
-                              readyToRating();
-                      }
-                 }
-            });
-      });     
+  document.getElementById('status').innerHTML = "DETECTADO"; 
+
+  findDevices();
+    
 })
 
 navigator.usb.addEventListener('disconnect', evt => 
