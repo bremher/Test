@@ -97,8 +97,8 @@ async function connectDevice()
         }  
 
         await device.open();
-        device.selectConfiguration(1); // Select configuration #1 
-        device.claimInterface(0);  // Request control over interface #0. 
+        await device.selectConfiguration(1); // Select configuration #1 
+        await device.claimInterface(0);  // Request control over interface #0. 
         if (device.opened == true)
         {
             document.getElementById('status').innerHTML = "CONNECTADO";
