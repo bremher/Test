@@ -52,10 +52,10 @@ async function findDevices()
     await navigator.usb.getDevices()
     .then(devices => 
       {
-          console.log("Total devices: " + devices.length);
-          devices.forEach(device => 
+            console.log("Total devices: " + devices.length);
+            devices.forEach( async (device) => 
             {
-                  console.log("Fabricante: " + device.manufacturerName +
+                  console.log("\nFabricante: " + device.manufacturerName +
                               "\nProduto:  " + device.productName +
                               "\nNúmero de Serie: " + device.serialNumber);
 
