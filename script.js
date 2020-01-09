@@ -55,14 +55,16 @@ async function findDevices()
         .then(devices => 
         {
             console.log("Total devices: " + devices.length);
-            devices.forEach( async (device) => 
+            devices.forEach( async (dev) => 
             {
                   console.log("\nFabricante: " + device.manufacturerName +
                               "\nProduto:  " + device.productName +
                               "\nNúmero de Serie: " + device.serialNumber);
 
-                  if (device.serialNumber == SERIAL_NUMBER) 
+                  if (dev.serialNumber == SERIAL_NUMBER) 
                   {                                
+                      device = await navigator.usb.requestDevice({ filters: filters});
+
                       await device.open();
                       await device.selectConfiguration(1); // Select configuration #1 
                       await device.claimInterface(0);  // Request control over interface #0. 
