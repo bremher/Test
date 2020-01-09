@@ -83,18 +83,6 @@ async function connectDevice()
     if (statusConexion == true) // fail if connected ...
        return false;
 
-    await navigator.usb.getDevices()
-    .then(devices => 
-      {
-          console.log("Total devices: " + devices.length);
-          devices.forEach(device => 
-            {
-                  console.log("Fabricante: " + device.manufacturerName +
-                              "\nProduto:  " + device.productName +
-                              "\nNúmero de Serie: " + device.serialNumber);
-            });
-      });     
-
     try 
     {        
         device = await navigator.usb.requestDevice({ filters: filters});
@@ -372,6 +360,34 @@ button_4.addEventListener('click', async() =>
 navigator.usb.addEventListener('connect', event => 
 {
     document.getElementById('status').innerHTML = "DETECTADO"; 
+
+    await navigator.usb.getDevices()
+    .then(devices => 
+      {
+          console.log("Total devices: " + devices.length);
+          devices.forEach(device => 
+            {
+                  console.log("Fabricante: " + device.manufacturerName +
+                              "\nProduto:  " + device.productName +
+                              "\nNúmero de Serie: " + device.serialNumber);
+
+                  if (device.serialNumber == SERIAL_NUMBER) 
+                  {                                
+                      await device.open();
+                      await device.selectConfiguration(1); // Select configuration #1 
+                      await device.claimInterface(0);  // Request control over interface #0. 
+                      if (device.opened == true)
+                      {
+                          document.getElementById('status').innerHTML = "CONNECTADO";
+                          document.getElementById('target').innerHTML = "Retorno: ";
+                          statusConexion = true;
+        
+                          if (readDevice() == true) // AVANTTEC_NOTA_EM_ESPERA 0x04
+                              readyToRating();
+                      }
+                 }
+            });
+      });     
 })
 
 navigator.usb.addEventListener('disconnect', evt => 
