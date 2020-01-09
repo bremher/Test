@@ -57,9 +57,9 @@ async function findDevices()
             console.log("Total devices: " + devices.length);
             devices.forEach( async (dev) => 
             {
-                  console.log("\nFabricante: " + device.manufacturerName +
-                              "\nProduto:  " + device.productName +
-                              "\nNúmero de Serie: " + device.serialNumber);
+                  console.log("\nFabricante: " + dev.manufacturerName +
+                              "\nProduto:  " + dev.productName +
+                              "\nNúmero de Serie: " + dev.serialNumber);
 
                   if (dev.serialNumber == SERIAL_NUMBER) 
                   {                                
