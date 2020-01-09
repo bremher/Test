@@ -49,9 +49,11 @@
 ///////////////////////////////////////////////////
 async function findDevices()
 {
-    await navigator.usb.getDevices()
-    .then(devices => 
-      {
+    try
+    {
+       await navigator.usb.getDevices()
+        .then(devices => 
+        {
             console.log("Total devices: " + devices.length);
             devices.forEach( async (device) => 
             {
@@ -72,10 +74,24 @@ async function findDevices()
         
                           if (readDevice() == true) // AVANTTEC_NOTA_EM_ESPERA 0x04
                               readyToRating();
+                          return true;  
                       }
-                 }
+                 }                 
             });
-      });
+        });
+
+        return false;
+    }
+
+    catch (error) 
+    {
+        console.log(error);
+        document.getElementById('target').innerHTML = "Retorno: " + error;
+
+        if (statusConexion == true)
+            closeDevice();
+        return false;     
+    }
 }
 
 ///////////////////////////////////////////////////
@@ -142,8 +158,9 @@ async function connectDevice()
         
             if (readDevice() == true) // AVANTTEC_NOTA_EM_ESPERA 0x04
                 readyToRating();
+            return true;  
         }
-        return true;     
+        return false;     
     }
 
     catch (error) 
