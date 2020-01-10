@@ -32,7 +32,7 @@
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
   let device;                   //  
-  let statusConexion = true;   // dispositivo conectado ?
+  let statusConexion = false;   // dispositivo conectado ?
   let inRating = false;         // Aguardando nota ?
   let bRating = false;          // adiciona no relatório ?
   
@@ -55,15 +55,15 @@ async function findDevices()
         .then(devices => 
         {
             console.log("Total de dispositivos: " + devices.length);
-            devices.forEach( async (dev) => 
+            devices.forEach( async (device) => 
             {
                   console.log("\nFabricante: " + dev.manufacturerName +
                               "\nProduto:  " + dev.productName +
                               "\nNúmero de Serie: " + dev.serialNumber);
 
-                  if (dev.serialNumber == SERIAL_NUMBER) 
+                  if (device.serialNumber == SERIAL_NUMBER) 
                   {                                
-                      device = await navigator.usb.requestDevice({ filters: filters});
+                      //device = await navigator.usb.requestDevice({ filters: filters});
 
                       await device.open();
                       await device.selectConfiguration(1); // Select configuration #1 
