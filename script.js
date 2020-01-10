@@ -1,6 +1,6 @@
 // https://github.com/login
 // https://bremher.github.io/Test/
-// Password: 4040Brgithub
+// Password: 40Br@gitHUB
 // 08/01/20  14:40
 
 // ###################################################################
@@ -16,6 +16,7 @@
 // DIRECTIVE DEFINE ************************************************** 
 'use strict'; // all code in the script will execute in strict mode
 
+
 // DEFINES - CONSTANTS - VARIABLES ***********************************
   const VENDOR_ID  = 0x04D8
   const PRODUCT_ID = 0x3174
@@ -24,9 +25,9 @@
   const PROTOCOL_CODE = 0xFF
   const SERIAL_NUMBER = '000007'
 
-  const ack_packet1 = Uint8Array.of(0x80) //CancelRating 
-  const ack_packet2 = Uint8Array.of(0x81) //ReadRating
-  const ack_packet3 = Uint8Array.of(0x82) //ReadyToRating
+  const ack_packet1 = Uint8Array.of(0x80); //CancelRating 
+  const ack_packet2 = Uint8Array.of(0x81); //ReadRating
+  const ack_packet3 = Uint8Array.of(0x82); //ReadyToRating
 
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
@@ -43,7 +44,6 @@
 // ##     F U N C T I O N S                      ##
 // ################################################
 
-
 ///////////////////////////////////////////////////
 // async function find Device
 ///////////////////////////////////////////////////
@@ -54,7 +54,7 @@ async function findDevices()
        await navigator.usb.getDevices()
         .then(devices => 
         {
-            console.log("Total devices: " + devices.length);
+            console.log("Total de dispositivos: " + devices.length);
             devices.forEach( async (dev) => 
             {
                   console.log("\nFabricante: " + dev.manufacturerName +
@@ -78,7 +78,7 @@ async function findDevices()
                               readyToRating();
                           return true;  
                       }
-                 }                 
+                  }                 
             });
         });
 
@@ -215,8 +215,8 @@ async function readDevice()
       if (cmd == 0x04)  // AVANTTEC_NOTA_EM_ESPERA 0x04
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EM_ESPERA';
          document.getElementById('nota').innerHTML = "NOTA: ";
-         bRating = true; 
-         inRating = true;
+         bRating = true;    // relatorio
+         inRating = true;   // aguarda nota 
       }
       if (cmd == 0x05)  // AVANTTEC_NOTA_EFETUADA  0x05
       {  document.getElementById('result').innerHTML ="CMD: "+'NOTA_EFETUADA';
@@ -295,7 +295,8 @@ async function readyToRating()
       document.getElementById('result').innerHTML ="CMD: "+'AGUARDANDO_NOTA';
       document.getElementById('nota').innerHTML = "NOTA: ...";       
       document.getElementById('target').innerHTML = "Retorno: ";   
-      bRating = true;
+      bRating = true;   // relatorio
+      inRating = true;  // aguadando nota
       return true;
     } 
 
