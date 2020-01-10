@@ -32,7 +32,7 @@
   const filters = [{vendorId: VENDOR_ID,  
                     productId: PRODUCT_ID}];
   let device;                   //  
-  let statusConexion = false;   // dispositivo conectado ?
+  let statusConexion = true;   // dispositivo conectado ?
   let inRating = false;         // Aguardando nota ?
   let bRating = false;          // adiciona no relatório ?
   
