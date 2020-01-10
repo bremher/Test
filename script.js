@@ -40,13 +40,6 @@
 // repeats a function at every time-interval
   var myVar = window.setInterval(dateTimeNow, 1000);
 
-  dictionary AllowedUSBDevice 
-  {
-    required octet vendorId;
-    required octet productId;
-    DOMString serialNumber;
-  };
-
 // ################################################
 // ##     F U N C T I O N S                      ##
 // ################################################
