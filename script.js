@@ -30,7 +30,8 @@
   const ack_packet3 = Uint8Array.of(0x82); //ReadyToRating
 
   const filters = [{vendorId: VENDOR_ID,  
-                    productId: PRODUCT_ID}];
+                    productId: PRODUCT_ID,
+                    serialNumber: SERIAL_NUMBER}];
   let device;                   //  
   let statusConexion = false;   // dispositivo conectado ?
   let inRating = false;         // Aguardando nota ?
