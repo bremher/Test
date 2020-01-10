@@ -30,8 +30,10 @@
   const ack_packet3 = Uint8Array.of(0x82); //ReadyToRating
 
   const filters = [{vendorId: VENDOR_ID,  
-                    productId: PRODUCT_ID,
-                    serialNumber: SERIAL_NUMBER}];
+                    productId: PRODUCT_ID}];
+
+  //serialNumber: SERIAL_NUMBER
+
   let device;                   //  
   let statusConexion = false;   // dispositivo conectado ?
   let inRating = false;         // Aguardando nota ?
@@ -52,7 +54,7 @@ async function findDevices()
 {
     try
     {
-       await navigator.usb.getDevices({ filters: filters})
+       await navigator.usb.getDevices()
         .then(devices => 
         {
             console.log("Total de dispositivos: " + devices.length);
